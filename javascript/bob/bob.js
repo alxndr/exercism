@@ -1,6 +1,6 @@
 function Bob() {
   function strip(text) {
-    return text.replace(/^\s+|\s+$/, '');
+    return text.trim();
   }
   function is_silent(text) {
     return (!strip(text).length);
@@ -13,13 +13,13 @@ function Bob() {
   }
   this.hey = function hey(stimulus) {
     switch (true) {
-      case (is_silent(stimulus)):
+      case is_silent(stimulus):
         return 'Fine. Be that way!';
 
-      case (is_yelling(stimulus)):
+      case is_yelling(stimulus):
         return 'Woah, chill out!';
 
-      case (is_questioning(stimulus)):
+      case is_questioning(stimulus):
         return 'Sure.';
 
       default:
