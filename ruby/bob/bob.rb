@@ -24,7 +24,7 @@ class Bob
   end
 
   def is_a_question?(stimulus)
-    stimulus.match(/\?$/)
+    stimulus.end_with? '?'
   end
 
 end
