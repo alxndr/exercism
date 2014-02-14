@@ -1,7 +1,6 @@
 class Bob
 
   def hey(stimulus='')
-    stimulus.delete! "\n"
     if is_empty?(stimulus)
       'Fine. Be that way!'
     elsif is_loud?(stimulus)
