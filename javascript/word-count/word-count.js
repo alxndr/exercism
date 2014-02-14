@@ -6,11 +6,13 @@ function words(text) {
     corpus = strip_punctuation(text.toLowerCase()).split(/\s+/);
 
   for (var i in corpus) {
-    var word = corpus[i];
-    if (!analysis[word]) {
-      analysis[word] = 0;
+    if (corpus.hasOwnProperty(i)) {
+      var word = corpus[i];
+      if (!analysis[word]) {
+        analysis[word] = 0;
+      }
+      analysis[word]++;
     }
-    analysis[word]++;
   }
   return analysis;
 }
