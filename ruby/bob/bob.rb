@@ -29,7 +29,7 @@ class Responder
   end
 
   def is_loud?
-    @stimulus.match(/[a-z]/i) && @stimulus.upcase == @stimulus
+    @stimulus.upcase == @stimulus && @stimulus.swapcase != @stimulus
   end
 
   def is_a_question?
