@@ -1,28 +1,13 @@
 class Bob
   def hey(stimulus)
-    Responder.new(stimulus).response
+    Responder.new(Stimulus.new stimulus).response
   end
 end
 
-class Responder
-
+class Stimulus
   def initialize(stimulus)
     @stimulus = stimulus.strip
   end
-
-  def response
-    if is_empty?
-      'Fine. Be that way!'
-    elsif is_loud?
-      'Woah, chill out!'
-    elsif is_a_question?
-      'Sure.'
-    else
-      'Whatever.'
-    end
-  end
-
-  private
 
   def is_empty?
     @stimulus.length == 0
@@ -35,5 +20,22 @@ class Responder
   def is_a_question?
     @stimulus.end_with? '?'
   end
+end
 
+class Responder
+  def initialize(input)
+    @input = input
+  end
+
+  def response
+    if @input.is_empty?
+      'Fine. Be that way!'
+    elsif @input.is_loud?
+      'Woah, chill out!'
+    elsif @input.is_a_question?
+      'Sure.'
+    else
+      'Whatever.'
+    end
+  end
 end
