@@ -1,11 +1,21 @@
 class Bob
+  def hey(stimulus)
+    Responder.new(stimulus).response
+  end
+end
 
-  def hey(stimulus='')
-    if is_empty?(stimulus)
+class Responder
+
+  def initialize(stimulus)
+    @stimulus = stimulus.strip
+  end
+
+  def response
+    if is_empty?
       'Fine. Be that way!'
-    elsif is_loud?(stimulus)
+    elsif is_loud?
       'Woah, chill out!'
-    elsif is_a_question?(stimulus)
+    elsif is_a_question?
       'Sure.'
     else
       'Whatever.'
@@ -14,16 +24,16 @@ class Bob
 
   private
 
-  def is_empty?(stimulus)
-    stimulus.strip.length == 0
+  def is_empty?
+    @stimulus.length == 0
   end
 
-  def is_loud?(stimulus)
-    stimulus.match(/[a-z]/i) && stimulus.upcase == stimulus
+  def is_loud?
+    @stimulus.match(/[a-z]/i) && @stimulus.upcase == @stimulus
   end
 
-  def is_a_question?(stimulus)
-    stimulus.end_with? '?'
+  def is_a_question?
+    @stimulus.end_with? '?'
   end
 
 end
