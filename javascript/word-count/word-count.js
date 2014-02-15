@@ -1,22 +1,22 @@
-function words(text) {
-  function strip_punctuation(t) {
-    return t.replace(/[^a-z0-9 ]/g, '');
+function word_analyzer(text) {
+  var analysis, corpus;
+  function strip_punctuation(str) {
+    return str.replace(/[^a-z0-9 ]/g, '');
   }
-  var analysis = { },
-    corpus = strip_punctuation(text.toLowerCase()).split(/\s+/);
-
-  for (var i in corpus) {
-    if (corpus.hasOwnProperty(i)) {
-      var word = corpus[i];
-      if (!analysis[word]) {
-        analysis[word] = 0;
-      }
-      analysis[word]++;
+  function analyze(accumulator, element) {
+    if (!accumulator.hasOwnProperty(element)) {
+      accumulator[element] = 1;
+    } else {
+      accumulator[element]++;
     }
+    return accumulator;
   }
-  return analysis;
+
+  corpus = strip_punctuation(text.toLowerCase()).split(/\s+/);
+
+  return corpus.reduce(analyze, {});
 }
 
 if (module) {
-  module.exports = words;
+  module.exports = word_analyzer;
 }
