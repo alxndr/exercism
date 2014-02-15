@@ -1,11 +1,12 @@
 defmodule Words do
-  @doc """
-  Count the number of words in the sentence.
 
-  Words are compared case-insensitively.
-  """
-  @spec count(String.t) :: HashDict.t
-  def count(sentence) do
-  
+  def count(text) do
+    increment = fn(x)-> x + 1 end
+    Regex.replace(%r/[^a-z0-9 ]/i, String.downcase(text), '') # why need parens?
+    |> String.split
+    |> Enum.reduce HashDict.new, fn(word, acc)->
+      HashDict.update acc, word, 1, increment
+    end
   end
+
 end
