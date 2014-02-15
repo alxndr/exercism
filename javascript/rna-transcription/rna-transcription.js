@@ -9,7 +9,7 @@ function dna_nucleotide_to_rna(dna_nucleotide) {
 }
 
 function dna_nucleotides_to_rna(dna_nucleotides) {
-  return dna_nucleotides.split('').map(function(nucleotide) { return dna_nucleotide_to_rna(nucleotide); }).join('');
+  return dna_nucleotides.replace(/./g, dna_nucleotide_to_rna);
 }
 
 if (module) {
