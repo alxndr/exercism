@@ -1,9 +1,6 @@
 function Bob() {
-  function strip(text) {
-    return text.trim();
-  }
   function is_silent(text) {
-    return (!strip(text).length);
+    return (!text.length);
   }
   function is_questioning(text) {
     return (/\?$/.test(text));
@@ -12,6 +9,7 @@ function Bob() {
     return (text.toUpperCase() == text && /[A-Z]/.test(text));
   }
   this.hey = function hey(stimulus) {
+    stimulus = stimulus.trim();
     switch (true) {
       case is_silent(stimulus):
         return 'Fine. Be that way!';
