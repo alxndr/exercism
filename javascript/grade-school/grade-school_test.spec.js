@@ -57,10 +57,10 @@ describe("School", function() {
     expect(school.roster()).toEqual(sorted);
   });
 
-  it("takes a very long time", function() {
-    var n = Math.pow(10, 5);
+  it("doesn't take too long", function() {
+    var n = 13000;
     for (var i = 0; i < n; i++) {
-      school.add(i.toString(), 0);
+      school.add(Math.random(n).toString(), 0);
     }
     expect(school.grade(0).length).toEqual(n);
   });
