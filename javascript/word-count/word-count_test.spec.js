@@ -30,4 +30,29 @@ describe("words()", function() {
     var expectedCounts = { "go" : 3 };
     expect(words("go Go GO")).toEqual(expectedCounts);
   });
+
+  it("handles unicode", function() {
+    var expectedCounts = {
+      "du": 2,
+      "skal": 1,
+      "kravle": 1,
+      "før": 1,
+      "kan": 1,
+      "gå": 1
+    };
+    // Danish: "You have to learn to crawl before you can walk"
+    // e.g. "Learn to walk before you can run"
+    // http://en.wikiquote.org/wiki/Danish_proverbs#D
+    expect(words("Du skal kravle, før du kan gå")).toEqual(expectedCounts);
+  });
+
+  it("handles big unicode", function() {
+    var expectedCounts = {
+      "今": 2,
+      "日": 2,
+      "事": 1,
+      "畢": 1
+    };
+    expect(words("今日事，今日畢")).toEqual(expectedCounts);
+  });
 });
