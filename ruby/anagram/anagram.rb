@@ -2,15 +2,11 @@ class Anagram
 
   def initialize(word)
     @original_word = word.downcase
-    @letters = alphabetize_letters(@original_word)
   end
 
   def match(potential_matches)
     potential_matches.reduce([]) do |results, potential_match|
-      if potential_match.downcase != @original_word \
-        && alphabetize_letters(potential_match.downcase) == @letters
-        results << potential_match
-      end
+      results << potential_match if is_new_word?(potential_match) && matches_original_word?(potential_match)
       results
     end
   end
@@ -19,6 +15,14 @@ class Anagram
 
   def alphabetize_letters(word)
     word.split('').sort.join
+  end
+
+  def is_new_word?(word)
+    word.downcase != @original_word
+  end
+
+  def matches_original_word?(word)
+    alphabetize_letters(word.downcase) == alphabetize_letters(@original_word)
   end
 
 end
