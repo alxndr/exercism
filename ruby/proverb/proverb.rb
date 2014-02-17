@@ -2,17 +2,22 @@ class Proverb
 
   def initialize(*args, **opts)
     @nouns = args
-    @opts = {qualifier: ''}.merge opts
+    @opts = opts
+    generate_lines
   end
 
   def to_s
-    proverb = []
-    @nouns[0...-1].each_with_index do |noun, i|
-      proverb.push "For want of a #{noun} the #{@nouns[i+1]} was lost."
-    end
-    qualifier = @opts[:qualifier].length == 0 ? '' : @opts[:qualifier] + ' '
-    proverb.push "And all for the want of a #{qualifier}#{@nouns.first}."
-    proverb.join "\n"
+    @proverb.join "\n"
+  end
+
+  private
+
+  def generate_lines
+    noun_pairs = @nouns.zip(@nouns[1..-1])[0..-2] # [[nail, shoe], [shoe, horse], ...]
+    qualifier = @opts[:qualifier] ? @opts[:qualifier] + ' ' : ''
+
+    @proverb = noun_pairs.map { |first, second| "For want of a #{first} the #{second} was lost." }
+    @proverb.push "And all for the want of a #{qualifier}#{@nouns.first}."
   end
 
 end
