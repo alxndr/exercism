@@ -3,17 +3,11 @@ class Grains
   NUM_SQUARES = 64
 
   def square(i)
-    binary_1e(i)
+    "1#{'0' * (i - 1)}".to_i(2)
   end
 
   def total
-    (1..NUM_SQUARES).inject(0) { |sum, i| sum + binary_1e(i) }
-  end
-
-  private
-
-  def binary_1e(i)
-    eval "0b1#{'0' * (i - 1)}"
+    (1..NUM_SQUARES).inject(0) { |sum, i| sum + square(i) }
   end
 
 end
