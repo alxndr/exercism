@@ -1,14 +1,14 @@
 function Bob() {
   function is_silent(text) {
-    return (!text.length);
+    return (text === '');
   }
   function is_questioning(text) {
-    return (/\?$/.test(text));
+    return (text.slice(-1) === '?');
   }
   function is_yelling(text) {
-    return (text.toUpperCase() == text && /[A-Z]/.test(text));
+    return (text.toUpperCase() === text && /[A-Z]/.test(text));
   }
-  this.hey = function hey(stimulus) {
+  function respond_to_stimulus(stimulus) {
     stimulus = stimulus.trim();
     switch (true) {
       case is_silent(stimulus):
@@ -23,7 +23,10 @@ function Bob() {
       default:
         return 'Whatever.';
     }
-  };
+  }
+
+  // public interface
+  this.hey = respond_to_stimulus;
 }
 
 if (module) {
