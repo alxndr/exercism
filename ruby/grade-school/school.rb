@@ -5,9 +5,8 @@ class School
   end
 
   def add(name, grade)
-    @roster[grade] = [] unless @roster.has_key? grade
-    @roster[grade] << name
-    @roster[grade].sort! # TODO use sorted list
+    @roster[grade] = SortedArray.new unless @roster.has_key? grade
+    @roster[grade].push name
   end
 
   def grade(num)
@@ -22,4 +21,20 @@ class School
     Hash[@roster.sort]
   end
 
+end
+
+class SortedArray < Array
+  def initialize
+    super
+  end
+
+  def push(element)
+    insert find_location_for(element), element
+  end
+
+  private
+
+  def find_location_for(element)
+    find_index { |existing_element| element < existing_element } || -1
+  end
 end
