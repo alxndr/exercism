@@ -1,7 +1,7 @@
 class Phrase
 
   def initialize(text)
-    @analysis = {}
+    @analysis = Hash.new(0)
     analyze(text)
   end
 
@@ -12,10 +12,7 @@ class Phrase
   private
 
   def analyze(text)
-    text.downcase.scan(/[a-z0-9']+/).each do |word|
-      @analysis[word] = 0 unless @analysis.has_key? word
-      @analysis[word] += 1
-    end
+    text.downcase.scan(/[a-z0-9']+/).each { |word| @analysis[word] += 1 }
   end
 
 end
