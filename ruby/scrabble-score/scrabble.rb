@@ -10,14 +10,7 @@ class Scrabble
   end
 
   def score
-    @word.split('').reduce(0) { |memo, obj|
-      key = obj.to_sym
-      if VALUES.has_key?(key)
-        memo += VALUES[key]
-      else
-        memo
-      end
-    }
+    @word.split('').reduce(0) { |memo, obj| memo += VALUES[obj.to_sym] }
   end
 
   def self.score(word)
