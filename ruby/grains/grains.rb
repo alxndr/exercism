@@ -3,7 +3,7 @@ class Grains
   NUM_SQUARES = 64
 
   def square(i)
-    "1#{'0' * (i - 1)}".to_i(2)
+    2 ** (i - 1)
   end
 
   def total
