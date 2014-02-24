@@ -7,17 +7,23 @@ function roman_in_place(n, place) {
   }
   switch (n) {
     case 0:
+      return '';
     case 1:
+      return DECIMAL_TO_ROMAN[place];
     case 2:
+      return DECIMAL_TO_ROMAN[place] + DECIMAL_TO_ROMAN[place];
     case 3:
-      return DECIMAL_TO_ROMAN[place].repeat(n);
+      return DECIMAL_TO_ROMAN[place] + DECIMAL_TO_ROMAN[place] + DECIMAL_TO_ROMAN[place];
     case 4:
       return DECIMAL_TO_ROMAN[place] + DECIMAL_TO_ROMAN[place * 5];
     case 5:
+      return DECIMAL_TO_ROMAN[place * 5];
     case 6:
+      return DECIMAL_TO_ROMAN[place * 5] + DECIMAL_TO_ROMAN[place];
     case 7:
+      return DECIMAL_TO_ROMAN[place * 5] + DECIMAL_TO_ROMAN[place] + DECIMAL_TO_ROMAN[place];
     case 8:
-      return DECIMAL_TO_ROMAN[place * 5] + DECIMAL_TO_ROMAN[place].repeat(n-5);
+      return DECIMAL_TO_ROMAN[place * 5] + DECIMAL_TO_ROMAN[place] + DECIMAL_TO_ROMAN[place] + DECIMAL_TO_ROMAN[place];
     case 9:
       return DECIMAL_TO_ROMAN[place] + DECIMAL_TO_ROMAN[place * 10];
     default:
@@ -43,20 +49,3 @@ function convert_to_roman(n) {
 if (module) {
   module.exports = convert_to_roman;
 }
-
-String.prototype.repeat = function(count) {
-  // from http://jsperf.com/faster-string-repeat/12
-  if (count < 1) {
-    return '';
-  }
-  var result = '',
-    pattern = this.valueOf();
-  while (count > 0) {
-    if (count & 1) {
-      result += pattern;
-    }
-    count >>= 1;
-    pattern += pattern;
-  }
-  return result;
-};
