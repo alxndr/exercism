@@ -21,10 +21,19 @@ function roman_in_place(n, place) {
   }
 }
 
+function find_place(num, place) {
+  return Math.floor(num / place) % 10;
+}
+
+function make_reducer_for(n) {
+  return function reducer(memo, place) {
+    var value_for_place = find_place(n, place);
+    return memo + roman_in_place(value_for_place, place);
+  };
+}
+
 function convert_to_roman(n) {
-  return [1000, 100, 10, 1].reduce(function(in_roman, place) {
-    return in_roman + roman_in_place(Math.floor(n / place) % 10, place);
-  }, '');
+  return [1000, 100, 10, 1].reduce(make_reducer_for(n), '');
 }
 
 if (module) {
