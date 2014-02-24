@@ -1,6 +1,10 @@
 DECIMAL_TO_ROMAN = { 1: 'I', 5: 'V', 10: 'X', 50: 'L', 100: 'C', 500: 'D', 1000: 'M' };
 
 function roman_in_place(n, place) {
+  var value = n * place;
+  if (DECIMAL_TO_ROMAN[value]) {
+    return DECIMAL_TO_ROMAN[value];
+  }
   switch (n) {
     case 0:
     case 1:

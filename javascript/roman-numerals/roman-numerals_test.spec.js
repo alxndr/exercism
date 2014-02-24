@@ -1,5 +1,6 @@
 var toRoman = require('./roman-numerals');
 
+//for (var i = 0; i < Math.pow(10, 3.6); i++)
 describe("toRoman()", function() {
   it("converts 1", function() {
     expect(toRoman(1)).toEqual('I');
