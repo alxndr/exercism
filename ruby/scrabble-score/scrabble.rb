@@ -6,7 +6,7 @@ class Scrabble
   }
 
   def initialize(word)
-    @word = word.nil? ? '' : word.strip.upcase
+    @word = word.to_s.strip.upcase
   end
 
   def score
