@@ -14,7 +14,7 @@ class Anagram
   private
 
   def alphabetize_letters(word)
-    word.split('').sort.join
+    word.each_char.sort.join
   end
 
   def is_new_word?(word)
