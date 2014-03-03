@@ -2,17 +2,9 @@ function Anagram(word) {
   var letters_to_match = alphabetize(word);
 
   this.match = function(potential_anagrams) {
-    var anagrams = [];
-    for (var i in potential_anagrams) {
-      var potential_match = potential_anagrams[i];
-      if (is_identical(potential_match)) {
-        continue;
-      }
-      if (alphabetize(potential_match) == letters_to_match) {
-        anagrams.push(potential_match);
-      }
-    }
-    return anagrams;
+    return potential_anagrams.filter(function(potential_match) {
+      return (!is_identical(potential_match) && alphabetize(potential_match) == letters_to_match);
+    });
   };
 
   function alphabetize(t) {
