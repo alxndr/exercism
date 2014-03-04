@@ -1,12 +1,11 @@
 class ETL
 
   def self.transform(old_schema)
-    old_schema.reduce({}) { |memo, obj|
-      point_value, letters = *obj
-      letters.each do |letter|
-        memo[letter.downcase] = point_value
-      end
-      memo
+    old_schema.reduce({}) { |memo, (point_value, letters)|
+      memo.merge(letters.reduce({}) { |hash, letter|
+        hash[letter.downcase] = point_value
+        hash
+      })
     }
   end
 
