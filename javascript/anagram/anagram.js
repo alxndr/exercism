@@ -2,18 +2,20 @@ function alphabetize(letters) {
   return letters.toLowerCase().split('').sort().join('');
 }
 
-function is_identical(a, b) {
-  return (a.toLowerCase() == b.toLowerCase());
+function create_filter(first_word) {
+  first_word = first_word.toLowerCase();
+  return function keep_matches(second_word) {
+    second_word = second_word.toLowerCase();
+    return (alphabetize(first_word) === alphabetize(second_word) && first_word !== second_word);
+  };
 }
 
-function Anagram(word) {
-  var letters_to_match = alphabetize(word);
+function Anagram(first_word) {
+  function match(potential_anagrams) {
+    return potential_anagrams.filter(create_filter(first_word));
+  }
 
-  this.match = function(potential_anagrams) {
-    return potential_anagrams.filter(function(potential_match) {
-      return (!is_identical(word, potential_match) && alphabetize(potential_match) == letters_to_match);
-    });
-  };
+  this.match = match;
 }
 
 if (module) {
