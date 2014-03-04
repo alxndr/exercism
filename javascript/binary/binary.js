@@ -1,5 +1,5 @@
 function sum_powers_of_two(sum, value, power) {
-  return sum + value * Math.pow(2, power);
+  return sum + (value === '1' ? Math.pow(2, power) : 0);
 }
 
 function Binary(input) {
