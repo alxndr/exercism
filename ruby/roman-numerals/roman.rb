@@ -11,9 +11,11 @@ module RomanNumerable
   }
 
   def to_roman
-    [1000, 100, 10, 1].reduce('') do |in_roman, place|
-      in_roman += convert_place(place, (self % (place * 10)) / place)
-    end
+    num_in_4_digits = '%04d' % self
+    num_in_4_digits.chars.each_with_index.map do |n, i|
+      place = 10 ** (3 - i)
+      convert_place(place, n.to_i)
+    end.join
   end
 
   def convert_place(order_of_magnitude, n)
