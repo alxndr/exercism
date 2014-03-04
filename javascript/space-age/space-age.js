@@ -16,18 +16,18 @@ function round_to(exp, num) { // negative exp to round to decimal places
 function capitalize(word) {
   return word[0].toUpperCase() + word.slice(1);
 }
+function converter_for(planet) {
+  return function converter() {
+    return round_to(-2, this.seconds / ORBITAL_PERIODS[planet]); // did not expect `this` to be the SpaceAgeConverter instance
+  };
+}
 
 function SpaceAgeConverter(input_seconds) {
-  function on(planet) {
-    return function converter() {
-      return round_to(-2, input_seconds / ORBITAL_PERIODS[planet]);
-    };
-  }
   var self = this;
 
   this.seconds = input_seconds;
   Object.keys(ORBITAL_PERIODS).forEach(function define_conversion_method(planet) {
-    self['on' + capitalize(planet)] = on(planet);
+    self['on' + capitalize(planet)] = converter_for(planet);
   });
 }
 
