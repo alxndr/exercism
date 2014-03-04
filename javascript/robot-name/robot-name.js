@@ -8,27 +8,24 @@ function random_digit() {
   return Math.floor(Math.random() * 10);
 }
 
+function generate_name() {
+  var name;
+  do {
+    name = random_capital_letter() + random_capital_letter() +
+      random_digit() + random_digit() + random_digit();
+  } while (robot_name_log.hasOwnProperty(name));
+  robot_name_log[name] = true;
+  return name;
+}
+
 function RobotNamer() {
-  function generate_name() {
-    var name;
-    do {
-      name = random_capital_letter() +
-        random_capital_letter() +
-        random_digit() +
-        random_digit() +
-        random_digit();
-    } while (robot_name_log.hasOwnProperty(name));
-    robot_name_log[name] = true;
-    return name;
-  }
-  function reset_name() {
+  function pick_name() {
     this.name = generate_name();
   }
-  var name = generate_name();
+  pick_name();
 
-  // public
   this.name = name;
-  this.reset = reset_name;
+  this.reset = pick_name;
 }
 
 if (module) {
