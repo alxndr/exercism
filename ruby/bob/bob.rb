@@ -18,6 +18,7 @@ class Bob
     Reaction.new(:is_empty?,      'Fine. Be that way!'),
     Reaction.new(:is_loud?,       'Woah, chill out!'),
     Reaction.new(:is_a_question?, 'Sure.'),
+    Reaction.new(:to_s,           'Whatever.'),
   ]
 
   def hey(input)
@@ -25,7 +26,6 @@ class Bob
     REACTIONS.each do |possible_reaction|
       return possible_reaction.response if possible_reaction.test(stimulus)
     end
-    'Whatever.'
   end
 end
 
