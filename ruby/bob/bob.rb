@@ -1,6 +1,31 @@
+class Reaction
+  def initialize(test_method_name, resp)
+    @test_method_name = test_method_name
+    @response = resp
+  end
+
+  def test(input)
+    input.send(@test_method_name)
+  end
+
+  def response
+    @response
+  end
+end
+
 class Bob
-  def hey(stimulus)
-    Responder.new(Stimulus.new stimulus).response
+  REACTIONS = [
+    Reaction.new(:is_empty?,      'Fine. Be that way!'),
+    Reaction.new(:is_loud?,       'Woah, chill out!'),
+    Reaction.new(:is_a_question?, 'Sure.'),
+  ]
+
+  def hey(input)
+    stimulus = Stimulus.new input
+    REACTIONS.each do |possible_reaction|
+      return possible_reaction.response if possible_reaction.test(stimulus)
+    end
+    'Whatever.'
   end
 end
 
@@ -22,20 +47,3 @@ class Stimulus
   end
 end
 
-class Responder
-  def initialize(input)
-    @input = input
-  end
-
-  def response
-    if @input.is_empty?
-      'Fine. Be that way!'
-    elsif @input.is_loud?
-      'Woah, chill out!'
-    elsif @input.is_a_question?
-      'Sure.'
-    else
-      'Whatever.'
-    end
-  end
-end
