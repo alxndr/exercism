@@ -1,32 +1,39 @@
+function is_silent(text) {
+  return (text === '');
+}
+function is_yelling(text) {
+  return (text.toUpperCase() === text && /[A-Z]/.test(text));
+}
+function is_questioning(text) {
+  return (text.slice(-1) === '?' && !is_yelling(text));
+}
+
 function Bob() {
-  function is_silent(text) {
-    return (text === '');
-  }
-  function is_questioning(text) {
-    return (text.slice(-1) === '?');
-  }
-  function is_yelling(text) {
-    return (text.toUpperCase() === text && /[A-Z]/.test(text));
-  }
-  function respond_to_stimulus(stimulus) {
+  var DEFAULT = 'default'; // weird
+  var RESPONSES = [
+    { test: is_silent,      result: 'Fine. Be that way!' },
+    { test: is_yelling,     result: 'Woah, chill out!' },
+    { test: is_questioning, result: 'Sure.' },
+    { test: DEFAULT,        result: 'Whatever.' }
+  ];
+
+  function respond_to(stimulus) {
+    var response;
     stimulus = stimulus.trim();
-    switch (true) {
-      case is_silent(stimulus):
-        return 'Fine. Be that way!';
-
-      case is_yelling(stimulus):
-        return 'Woah, chill out!';
-
-      case is_questioning(stimulus):
-        return 'Sure.';
-
-      default:
-        return 'Whatever.';
-    }
+    RESPONSES.some(function(registered_response) {
+      var test_method = registered_response.test;
+      if (!response && test_method === DEFAULT || test_method(stimulus)) {
+        response = registered_response.result;
+        return true;
+      }
+    });
+    return response;
   }
 
   // public interface
-  this.hey = respond_to_stimulus;
+  this.hey = function respond_to_stimulus(stimulus) {
+    return respond_to(stimulus);
+  };
 }
 
 if (module) {
