@@ -1,13 +1,19 @@
 function Anagram(starting_word) {
+  var alphabetized_starting_word;
+
+  starting_word = starting_word.toLowerCase();
+  alphabetized_starting_word = alphabetize(starting_word);
+
+  function alphabetize(a_word) {
+    return a_word.toLowerCase().split('').sort().join('');
+  }
   function is_an_anagram(other_word) {
     other_word = other_word.toLowerCase();
-    return (starting_word !== other_word && starting_word_alphabetized === other_word.alphabetize());
+    return (starting_word !== other_word && alphabetized_starting_word === alphabetize(other_word));
   }
   function find_matches_among(potential_anagrams) {
     return potential_anagrams.filter(is_an_anagram);
   }
-  starting_word = starting_word.toLowerCase();
-  starting_word_alphabetized = starting_word.alphabetize();
 
   this.match = find_matches_among;
 }
@@ -15,7 +21,3 @@ function Anagram(starting_word) {
 if (module) {
   module.exports = Anagram;
 }
-
-String.prototype.alphabetize = function String_alphabetize() {
-  return this.toLowerCase().split('').sort().join('');
-};
