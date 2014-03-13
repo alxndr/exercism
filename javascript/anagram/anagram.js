@@ -1,12 +1,13 @@
+function alphabetize(word) {
+  return word.toLowerCase().split('').sort().join('');
+}
+
 function Anagram(starting_word) {
   var alphabetized_starting_word;
 
   starting_word = starting_word.toLowerCase();
   alphabetized_starting_word = alphabetize(starting_word);
 
-  function alphabetize(a_word) {
-    return a_word.toLowerCase().split('').sort().join('');
-  }
   function is_an_anagram(other_word) {
     other_word = other_word.toLowerCase();
     return (starting_word !== other_word && alphabetized_starting_word === alphabetize(other_word));
