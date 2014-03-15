@@ -1,5 +1,5 @@
 function remove_non_numerals(string) {
-  return string.replace(/[^0-9]/g,'');
+  return string.replace(/[^0-9]/g, '');
 }
 
 function is_ten_long(clean_number) {
@@ -27,23 +27,23 @@ function first_three_digits(num) {
 }
 
 function make_number_getter(num) {
-  var val = is_ten_long(num) ? num : '0000000000';
-  return function number() {
-    return val;
+  var number_for_consumption = is_ten_long(num) ? num : '0000000000';
+  return function return_number() {
+    return number_for_consumption;
   };
 }
 
 function make_area_code_getter(num) {
-  var val = first_three_digits(num);
-  return function area_code() {
-    return val;
+  var area_code = first_three_digits(num);
+  return function return_area_code() {
+    return area_code;
   };
 }
 
 function make_to_string_getter(num) {
-  var val = '(' + first_three_digits(num) + ') ' + num.substr(3, 3) + '-' + num.substr(6, 4);
-  return function to_string() {
-    return val;
+  var string_for_num = '(' + first_three_digits(num) + ') ' + num.substr(3, 3) + '-' + num.substr(6, 4);
+  return function return_to_string() {
+    return string_for_num;
   };
 }
 
