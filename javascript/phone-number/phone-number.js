@@ -10,10 +10,14 @@ function has_extra_one(num) {
   return (num.length == 11 && num.substr(0, 2) === '11');
 }
 
+function trim_first_char(str) {
+  return str.slice(1);
+}
+
 function clean(a_number) {
   var cleaned = remove_non_numerals(a_number);
   if (has_extra_one(cleaned)) {
-    cleaned = cleaned.slice(1);
+    cleaned = trim_first_char(cleaned);
   }
   return cleaned;
 }
