@@ -42,10 +42,7 @@ function Bob() {
     return response;
   }
 
-  // public interface
-  this.hey = function respond_to_stimulus(stimulus) {
-    return respond_to(stimulus);
-  };
+  this.hey = respond_to;
 }
 
 if (module) {
