@@ -22,7 +22,7 @@ function Bob() {
     stimulus = stimulus.trim();
     RESPONSES.some(function(registered_response) {
       var test_method = registered_response.test;
-      if (!response && test_method === DEFAULT || test_method(stimulus)) {
+      if (test_method === DEFAULT || test_method(stimulus)) {
         response = registered_response.result;
         return true;
       }
