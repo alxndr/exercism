@@ -1,59 +1,61 @@
-#    Reaction.new(:is_empty?,      'Fine. Be that way!'),
-#    Reaction.new(:is_loud?,       'Woah, chill out!'),
-#    Reaction.new(:is_a_question?, 'Sure.'),
-#    Reaction.new(:to_s,           'Whatever.'),
-
 class Reaction
-  def test(_stimulus)
+  def self.test(_stimulus)
     true
   end
 
-  def response
-    @response || 'Whatever.'
+  def self.response
+    'Whatever.'
   end
 end
 
 class SilentReaction < Reaction
-  def initialize
-    @response = 'Fine. Be that way!'
-    super
+  def self.test(stimulus)
+    stimulus.is_empty?
   end
 
-  def test(stimulus)
-    stimulus.is_empty?
+  def self.response
+    'Fine. Be that way!'
   end
 end
 
 class YellingReaction < Reaction
-  def initialize
-    @response = 'Woah, chill out!'
-    super
+  def self.test(stimulus)
+    stimulus.is_loud?
   end
 
-  def test(stimulus)
-    stimulus.is_loud?
+  def self.response
+    'Woah, chill out!'
   end
 end
 
 class QuestioningReaction < Reaction
-  def initialize
-    @response = 'Sure.'
+  def self.test(stimulus)
+    stimulus.is_a_question? && !stimulus.is_loud?
   end
 
-  def test(stimulus)
-    stimulus.is_a_question? && !stimulus.is_loud?
+  def self.response
+    'Sure.'
   end
 end
 
 class Bob
 
-  REACTIONS = [ SilentReaction, YellingReaction, QuestioningReaction, Reaction ];
-
-  def respond_to(input)
-    stimulus = Stimulus.new input
-    REACTIONS.find { |reaction_class| reaction_class.new.test(stimulus) }.response
+  def initialize(reactions=[ SilentReaction,
+                             YellingReaction,
+                             QuestioningReaction,
+                             Reaction ])
+    @reactions = reactions
   end
-  alias_method :hey, :respond_to
+
+  def hey(input)
+    respond_to(Stimulus.new input)
+  end
+
+  private
+
+  def respond_to(stimulus)
+    @reactions.find { |reaction| reaction.test(stimulus) }.response
+  end
 
 end
 
