@@ -1,17 +1,10 @@
-function transformer(old_schema) {
-  return function reducer(new_schema, points) {
-    var words = old_schema[points];
-
-    words.forEach(function value_into_new_schema(word) {
-      new_schema[word.toLowerCase()] = parseInt(points, 10);
-    });
-
-    return new_schema;
-  };
-}
-
 function transform(old_schema) {
-  return Object.keys(old_schema).reduce(transformer(old_schema), {});
+  return Object.keys(old_schema).reduce(function(new_schema,point_value){
+    return old_schema[point_value].reduce(function(ns, word){
+      ns[word.toLowerCase()] = parseInt(point_value, 10);
+      return ns;
+    }, new_schema);
+  }, {});
 }
 
 if (module) {
