@@ -62,4 +62,8 @@ defmodule TeenagerTest do
     # Hopefully this is Russian for "get out"
     assert Teenager.hey("УХОДИТЬ") == "Woah, chill out!"
   end
+
+  test "shouting in Chinese" do
+    assert Teenager.hey("你干嘛") == "Woah, chill out!"
+  end
 end

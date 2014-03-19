@@ -6,7 +6,7 @@ defmodule Teenager do
       trimmed |> is_empty?      -> "Fine. Be that way!"
       trimmed |> is_yelling?    -> "Woah, chill out!"
       trimmed |> is_a_question? -> "Sure."
-      true -> "Whatever."
+      true                      -> "Whatever."
     end
   end
 
@@ -15,7 +15,8 @@ defmodule Teenager do
   end
 
   defp is_yelling?(string) do
-    string |> String.upcase == string and string |> String.match? %r/[[:alpha:]]/
+    string |> String.upcase == string
+      and string |> String.match? %r/\p{L}/
   end
 
   defp is_a_question?(string) do
