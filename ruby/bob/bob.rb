@@ -1,3 +1,19 @@
+class Bob
+  def initialize(reactions=[ SilentReaction, YellingReaction, QuestioningReaction, Reaction ])
+    @reactions = reactions
+  end
+
+  def hey(input)
+    respond_to(Stimulus.new input)
+  end
+
+  private
+
+  def respond_to(stimulus)
+    @reactions.find { |reaction| reaction.test(stimulus) }.response
+  end
+end
+
 class Reaction
   def self.test(_stimulus)
     true
@@ -36,27 +52,6 @@ class QuestioningReaction < Reaction
   def self.response
     'Sure.'
   end
-end
-
-class Bob
-
-  def initialize(reactions=[ SilentReaction,
-                             YellingReaction,
-                             QuestioningReaction,
-                             Reaction ])
-    @reactions = reactions
-  end
-
-  def hey(input)
-    respond_to(Stimulus.new input)
-  end
-
-  private
-
-  def respond_to(stimulus)
-    @reactions.find { |reaction| reaction.test(stimulus) }.response
-  end
-
 end
 
 class Stimulus
