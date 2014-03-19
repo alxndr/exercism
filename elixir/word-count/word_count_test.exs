@@ -37,4 +37,9 @@ defmodule WordsTest do
     expected = HashDict.new [{"go", 3}]
     assert Words.count("go Go GO") == expected
   end
+
+  test "speaks German" do
+    expected = HashDict.new [{"bäcker", 2}, {"braun", 2}, {"bäckt", 2}, {"braune", 2}, {"brezeln", 2}]
+    assert Words.count("Bäcker Braun bäckt braune Brezeln, Braune Brezeln bäckt Bäcker Braun") == expected
+  end
 end
