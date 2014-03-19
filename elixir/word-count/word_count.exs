@@ -1,5 +1,6 @@
 defmodule Words do
 
+  @spec count(String.t) :: HashDict.t
   def count(text) do
     %r/[\p{L}0-9]+/i |> Regex.scan(String.downcase(text)) |> count_words
   end
