@@ -1,10 +1,9 @@
-var giga = +'1e12';
 function Gigasecond(start_date) {
-  function gigasecond_date() {
-    return new Date(new Date(+start_date + giga).toDateString());
-  }
+  var giga_date = new Date(new Date(+start_date + 1e12).toDateString());
 
-  this.date = gigasecond_date;
+  this.date = function return_giga_date() {
+    return giga_date;
+  };
 }
 
 if (module) {
