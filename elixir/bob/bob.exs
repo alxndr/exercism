@@ -1,26 +1,24 @@
 defmodule Teenager do
 
   def hey(input) do
-    trimmed = input |> String.strip
+    trimmed = String.strip(input)
     cond do
-      trimmed |> is_empty?      -> "Fine. Be that way!"
-      trimmed |> is_yelling?    -> "Woah, chill out!"
-      trimmed |> is_a_question? -> "Sure."
-      true                      -> "Whatever."
+      is_empty?(trimmed)      -> "Fine. Be that way!"
+      is_yelling?(trimmed)    -> "Woah, chill out!"
+      is_a_question?(trimmed) -> "Sure."
+      true                    -> "Whatever."
     end
   end
 
-  defp is_empty?(string) do
-    string == ""
+  defp is_empty?(str) when str == "", do: true
+  defp is_empty?(_str),               do: false
+
+  defp is_yelling?(str) do
+    String.upcase(str) == str and String.match?(str, %r/\p{L}/)
   end
 
-  defp is_yelling?(string) do
-    string |> String.upcase == string
-      and string |> String.match? %r/\p{L}/
-  end
-
-  defp is_a_question?(string) do
-    string |> String.ends_with?("?")
+  defp is_a_question?(str) do
+    String.ends_with?(str, "?")
   end
 
 end
