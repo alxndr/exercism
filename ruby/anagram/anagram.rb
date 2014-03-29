@@ -1,28 +1,33 @@
 class Anagram
 
   def initialize(word)
-    @original_word = word.downcase
+    @original_word = AnagrammableWord.new word
   end
 
-  def match(potential_matches)
-    potential_matches.reduce([]) do |results, potential_match|
-      results << potential_match if is_new_word?(potential_match) && matches_original_word?(potential_match)
-      results
+  def match(words_to_check)
+    words_to_check.select { |word| @original_word.unique_anagram_of? word.downcase }
+  end
+
+end
+
+class AnagrammableWord
+
+  module StringAlphabetizer
+    refine String do
+      def alphabetize
+        self.each_char.sort.join
+      end
     end
   end
+  using StringAlphabetizer
 
-  private
-
-  def alphabetize_letters(word)
-    word.each_char.sort.join
+  def initialize(word)
+    @reference = word.downcase
+    @alphabetized_reference = @reference.alphabetize
   end
 
-  def is_new_word?(word)
-    word.downcase != @original_word
-  end
-
-  def matches_original_word?(word)
-    alphabetize_letters(word.downcase) == alphabetize_letters(@original_word)
+  def unique_anagram_of?(check_word)
+    check_word != @reference && check_word.alphabetize === @alphabetized_reference
   end
 
 end
