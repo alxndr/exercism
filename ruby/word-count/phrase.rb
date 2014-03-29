@@ -2,7 +2,7 @@ class Phrase
 
   def initialize(text)
     @analysis = Hash.new(0)
-    analyze(text)
+    analyze text
   end
 
   def word_count
@@ -12,7 +12,13 @@ class Phrase
   private
 
   def analyze(text)
-    text.downcase.scan(/[a-z0-9']+/).each { |word| @analysis[word] += 1 }
+    words_in(text).each do |word|
+      @analysis[word] += 1
+    end
+  end
+
+  def words_in(text)
+    text.downcase.scan(/[[:word:]']+/)
   end
 
 end
