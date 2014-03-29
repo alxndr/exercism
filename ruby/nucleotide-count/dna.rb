@@ -10,8 +10,7 @@ class DNA
   end
 
   def count(nucleotide)
-    raise ArgumentError unless VALID_NUCLEOTIDES.include? nucleotide
-    @census[nucleotide]
+    @census[nucleotide] or raise ArgumentError
   end
 
   def nucleotide_counts
