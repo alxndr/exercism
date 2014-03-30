@@ -33,11 +33,10 @@ defmodule ListOps do
   @spec append(list, list) :: list
   def append([], list),         do: list
   def append(list, []),         do: list
-  def append(list, list2),      do: append_with_acc(list, list2)
-  defp append_with_acc([], acc),  do: acc
-  defp append_with_acc(list, acc) do # crazy slow with 1m entries
-    [ last | rest_backwards ] = reverse(list)
-    append_with_acc(reverse(rest_backwards), [ last | acc ])
+  def append(list, list2),      do: append_with_acc(reverse(list), list2)
+  defp append_with_acc([], acc),       do: acc
+  defp append_with_acc([ h | t ], acc) do
+    append_with_acc(t, [ h | acc ])
   end
 
   @spec concat([[any]]) :: [any]
