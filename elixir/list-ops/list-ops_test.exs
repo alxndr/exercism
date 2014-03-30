@@ -34,7 +34,7 @@ defmodule ListOpsTest do
   end
 
   test "reverse of huge list" do
-    assert Enum.to_list(100_000..1) == L.reverse(Enum.to_list(1..100_000))
+    assert Enum.to_list(1_000_000..1) == L.reverse(Enum.to_list(1..1_000_000))
   end
 
   test "map of empty list" do
