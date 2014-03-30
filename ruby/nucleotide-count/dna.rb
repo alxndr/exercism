@@ -3,7 +3,8 @@ class DNA
   VALID_NUCLEOTIDES = %w(A T C G)
 
   def initialize(sequence)
-    @census = sequence.split('').each_with_object(Hash[ VALID_NUCLEOTIDES.zip([0] * VALID_NUCLEOTIDES.length) ]) do |letter, census|
+    empty_census = Hash[ VALID_NUCLEOTIDES.zip([0] * VALID_NUCLEOTIDES.length) ]
+    @census = sequence.split('').each_with_object(empty_census) do |letter, census|
       raise ArgumentError unless VALID_NUCLEOTIDES.include? letter
       census[letter] += 1
     end
