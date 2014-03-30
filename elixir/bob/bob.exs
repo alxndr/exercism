@@ -10,8 +10,8 @@ defmodule Teenager do
     end
   end
 
-  defp is_empty?(str) when str == "", do: true
-  defp is_empty?(_str),               do: false
+  defp is_empty?(""),   do: true
+  defp is_empty?(_str), do: false
 
   defp is_yelling?(str) do
     String.upcase(str) == str and String.match?(str, %r/\p{L}/)
