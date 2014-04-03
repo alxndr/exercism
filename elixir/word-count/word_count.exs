@@ -1,9 +1,7 @@
 defmodule Words do
 
   def count(text) do
-    text |>
-    split_words |>
-    count_words
+    text |> split_words |> count_words
   end
 
   defp split_words(text) do
@@ -11,8 +9,7 @@ defmodule Words do
   end
 
   defp count_words(list) do
-    list |>
-    Enum.reduce(HashDict.new, fn [word], acc -> HashDict.update acc, word, 1, &(1 + &1) end)
+    list |> Enum.reduce(HashDict.new, fn [word], acc -> HashDict.update acc, word, 1, &(1 + &1) end)
   end
 
 end
