@@ -1,22 +1,3 @@
-function bottles_phrase(count) {
-  if (!count) {
-    count = 'no more';
-  }
-  return count + ' ' + pluralize(count, 'bottle') + ' of beer';
-}
-
-function take_action(count) {
-  var results = {};
-  if (count) {
-    results.phrase = 'Take ' + (count == 1 ? 'it' : 'one') + ' down and pass it around';
-    results.new_count = count - 1;
-  } else {
-    results.phrase = 'Go to the store and buy some more';
-    results.new_count = 99;
-  }
-  return results;
-}
-
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -25,38 +6,59 @@ function pluralize(count, noun) {
   return noun + (count == 1 ? '' : 's');
 }
 
+function BottlesOfBeerSinger() {
+  function take_action(count) {
+    var results = {};
+    if (count) {
+      results.phrase = 'Take ' + (count == 1 ? 'it' : 'one') + ' down and pass it around';
+      results.new_count = count - 1;
+    } else {
+      results.phrase = 'Go to the store and buy some more';
+      results.new_count = 99;
+    }
+    return results;
+  }
 
-var song = {
+  function bottles_phrase(count) {
+    if (!count) {
+      count = 'no more';
+    }
+    return count + ' ' + pluralize(count, 'bottle') + ' of beer';
+  }
 
-  verse : function verse(count) {
+  function verse(bottle_count) {
     var action;
-    if (count < 0) {
+    if (bottle_count < 0) {
       throw new Error("can't have fewer than 0 bottles!'");
     }
-    action = take_action(count);
-    return capitalize(bottles_phrase(count)) + ' on the wall, ' +
-      bottles_phrase(count) + '.\n' +
+    action = take_action(bottle_count);
+    return capitalize(bottles_phrase(bottle_count)) + ' on the wall, ' +
+      bottles_phrase(bottle_count) + '.\n' +
       action.phrase + ', ' +
       bottles_phrase(action.new_count) + ' on the wall.\n';
-  },
+  }
 
-  sing : function sing(start, end) {
+  function sing(start_count, end_count) {
     var output;
-    if (end === undefined) {
-      return this.sing(start, 0);
+    if (end_count === undefined) {
+      return sing(start_count, 0);
     }
-    if (start < end) {
+    if (start_count < end_count) {
       throw new Error("that's dangerous thinking there");
     }
     output = [];
-    for (var i = start; i >= end; i--) {
-      output.push(this.verse(i));
+    for (var i = start_count; i >= end_count; i--) {
+      output.push(verse(i));
     }
     return output.join('\n');
   }
 
-};
+  return {
+    verse: verse,
+    sing: sing
+  };
+}
 
 if (module) {
-  module.exports = song;
+  module.exports = new BottlesOfBeerSinger();
 }
