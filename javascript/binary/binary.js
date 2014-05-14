@@ -3,13 +3,17 @@ function sum_powers_of_two(sum, value, power) {
 }
 
 function Binary(input) {
-  var decimal_value = ( input.match(/[01]/g) || [] ).reverse().reduce(sum_powers_of_two, 0);
+  var decimal_value;
+  input = input.match(/[01]/g) || [];
+  decimal_value = input.reverse().reduce(sum_powers_of_two, 0);
 
-  function to_decimal() {
+  function get_decimal() {
     return decimal_value;
   }
 
-  this.toDecimal = to_decimal;
+  return {
+    toDecimal: get_decimal
+  };
 }
 
 if (module) {
