@@ -14,7 +14,7 @@ defmodule Teenager do
   defp is_empty?(_str), do: false
 
   defp is_yelling?(str) do
-    String.upcase(str) == str and String.match?(str, %r/\p{L}/)
+    String.upcase(str) == str and String.match?(str, ~r/\p{L}/)
   end
 
   defp is_a_question?(str) do
