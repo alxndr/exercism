@@ -7,16 +7,19 @@ function pluralize(count, noun) {
 }
 
 function BottlesOfBeerSinger() {
+  var RESET_ACTION = {
+    phrase : 'Go to the store and buy some more',
+    new_count : 99
+  };
+
   function take_action(count) {
-    var results = {};
-    if (count) {
-      results.phrase = 'Take ' + (count == 1 ? 'it' : 'one') + ' down and pass it around';
-      results.new_count = count - 1;
-    } else {
-      results.phrase = 'Go to the store and buy some more';
-      results.new_count = 99;
+    if (!count) {
+      return RESET_ACTION;
     }
-    return results;
+    return {
+      phrase : 'Take ' + (count == 1 ? 'it' : 'one') + ' down and pass it around',
+      new_count : count - 1
+    };
   }
 
   function bottles_phrase(count) {
@@ -26,16 +29,18 @@ function BottlesOfBeerSinger() {
     return count + ' ' + pluralize(count, 'bottle') + ' of beer';
   }
 
-  function verse(bottle_count) {
+  function wall_phrase(count) {
+    return bottles_phrase(count) + ' on the wall';
+  }
+
+  function verse(count) {
     var action;
-    if (bottle_count < 0) {
+    if (count < 0) {
       throw new Error("can't have fewer than 0 bottles!'");
     }
-    action = take_action(bottle_count);
-    return capitalize(bottles_phrase(bottle_count)) + ' on the wall, ' +
-      bottles_phrase(bottle_count) + '.\n' +
-      action.phrase + ', ' +
-      bottles_phrase(action.new_count) + ' on the wall.\n';
+    action = take_action(count);
+    return capitalize(wall_phrase(count)) + ', ' + bottles_phrase(count) + '.\n' +
+      action.phrase + ', ' + wall_phrase(action.new_count) + '.\n';
   }
 
   function sing(start_count, end_count) {
