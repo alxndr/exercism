@@ -1,25 +1,3 @@
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function pluralize(count, noun) {
-  return noun + (count == 1 ? '' : 's');
-}
-
-function zero_to_n_inclusive(end) {
-  return Array.apply(null, Array(end + 1));
-}
-
-function decrementing_range(start, end) {
-  function start_minus_index(_val, index) {
-    return start - index;
-  }
-  if (start < end) {
-    throw new Error("that's dangerous thinking there");
-  }
-  return zero_to_n_inclusive(start - end).map(start_minus_index);
-}
-
 function BottlesOfBeerSinger() {
   var RESET_ACTION = {
     phrase : 'Go to the store and buy some more',
@@ -70,6 +48,28 @@ function BottlesOfBeerSinger() {
     verse: verse,
     sing: sing
   };
+}
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function pluralize(count, noun) {
+  return noun + (count == 1 ? '' : 's');
+}
+
+function zero_to_n_inclusive(end) {
+  return Array.apply(null, Array(end + 1));
+}
+
+function decrementing_range(start, end) {
+  function start_minus_index(_val, index) {
+    return start - index;
+  }
+  if (start < end) {
+    throw new Error("that's dangerous thinking there");
+  }
+  return zero_to_n_inclusive(start - end).map(start_minus_index);
 }
 
 if (module) {
