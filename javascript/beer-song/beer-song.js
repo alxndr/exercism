@@ -6,6 +6,20 @@ function pluralize(count, noun) {
   return noun + (count == 1 ? '' : 's');
 }
 
+function zero_to_n_inclusive(end) {
+  return Array.apply(null, Array(end + 1));
+}
+
+function decrementing_range(start, end) {
+  function start_minus_index(_val, index) {
+    return start - index;
+  }
+  if (start < end) {
+    throw new Error("that's dangerous thinking there");
+  }
+  return zero_to_n_inclusive(start - end).map(start_minus_index);
+}
+
 function BottlesOfBeerSinger() {
   var RESET_ACTION = {
     phrase : 'Go to the store and buy some more',
@@ -39,23 +53,17 @@ function BottlesOfBeerSinger() {
       throw new Error("can't have fewer than 0 bottles!'");
     }
     action = take_action(count);
-    return capitalize(wall_phrase(count)) + ', ' + bottles_phrase(count) + '.\n' +
-      action.phrase + ', ' + wall_phrase(action.new_count) + '.\n';
+    return capitalize(wall_phrase(count)) + ', ' +
+      bottles_phrase(count) + '.\n' +
+      action.phrase + ', ' +
+      wall_phrase(action.new_count) + '.\n';
   }
 
   function sing(start_count, end_count) {
-    var output;
     if (end_count === undefined) {
       return sing(start_count, 0);
     }
-    if (start_count < end_count) {
-      throw new Error("that's dangerous thinking there");
-    }
-    output = [];
-    for (var i = start_count; i >= end_count; i--) {
-      output.push(verse(i));
-    }
-    return output.join('\n');
+    return decrementing_range(start_count, end_count).map(verse).join('\n');
   }
 
   return {
