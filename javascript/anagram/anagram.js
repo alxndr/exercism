@@ -16,7 +16,9 @@ function Anagram(starting_word) {
     return potential_anagrams.filter(is_an_anagram);
   }
 
-  this.match = find_matches_among;
+  return {
+    match: find_matches_among
+  };
 }
 
 if (module) {

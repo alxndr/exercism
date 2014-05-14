@@ -17,7 +17,9 @@ function DNA(sequence) {
       length;
   }
 
-  this.hammingDistance = find_hamming_distance_to;
+  return {
+    hammingDistance: find_hamming_distance_to
+  };
 }
 
 if (module) {
