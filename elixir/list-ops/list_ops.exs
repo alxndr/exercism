@@ -5,9 +5,9 @@ defmodule ListOps do
   def count([ _h | t ]), do: 1 + count(t)
 
   @spec reverse(list) :: list
-  def reverse(list), do: reverse_with_acc(list, [])
-  defp reverse_with_acc([], acc),        do: acc
-  defp reverse_with_acc([ h | t ], acc), do: reverse_with_acc(t, [h | acc])
+  def reverse(list), do: _reverse(list, [])
+  defp _reverse([], acc),        do: acc
+  defp _reverse([ h | t ], acc), do: _reverse(t, [h | acc])
 
   @spec map(list, (any -> any)) :: list
   def map([], _f),             do: []
@@ -33,15 +33,15 @@ defmodule ListOps do
   @spec append(list, list) :: list
   def append([], list),         do: list
   def append(list, []),         do: list
-  def append(list, list2),      do: append_with_acc(reverse(list), list2)
-  defp append_with_acc([], acc),       do: acc
-  defp append_with_acc([ h | t ], acc) do
-    append_with_acc(t, [ h | acc ])
+  def append(list, list2),      do: _append(reverse(list), list2)
+  defp _append([], acc),       do: acc
+  defp _append([ h | t ], acc) do
+    _append(t, [ h | acc ])
   end
 
   @spec concat([[any]]) :: [any]
-  def concat(list_2d) do
-    reduce(list_2d, [], &( append(&2, &1) ))
+  def concat(list) do
+    reduce list, [], &(append &2, &1)
   end
 
 end
