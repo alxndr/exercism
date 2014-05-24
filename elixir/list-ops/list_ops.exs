@@ -9,9 +9,7 @@ defmodule ListOps do
   def count(list), do: reduce(list, 0, fn (_, acc) -> acc + 1 end)
 
   @spec reverse(list) :: list
-  def reverse(list),             do: _reverse(list, [])
-  defp _reverse([], acc),        do: acc
-  defp _reverse([ h | t ], acc), do: _reverse(t, [h | acc])
+  def reverse(list), do: reduce(list, [], &([&1 | &2]))
 
   @spec concat([[any]]) :: [any]
   def concat(list), do: reduce(list, [], &(append &2, &1))
