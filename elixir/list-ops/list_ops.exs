@@ -1,8 +1,9 @@
 defmodule ListOps do
 
   @spec count(list) :: non_neg_integer
-  def count([]),         do: 0
-  def count([ _h | t ]), do: 1 + count(t)
+  def count(list) do
+    reduce list, 0, fn (_, acc) -> acc + 1 end
+  end
 
   @spec reverse(list) :: list
   def reverse(list), do: _reverse(list, [])
@@ -26,13 +27,11 @@ defmodule ListOps do
   @type acc :: any
   @spec reduce(list, acc, ((any, acc) -> acc)) :: acc
   def reduce([], acc, _f),        do: acc
-  def reduce([head|tail], acc, f) do
-    reduce(tail, f.(head, acc), f)
+  def reduce([head|tail], acc, function) do
+    reduce tail, function.(head, acc), function
   end
 
   @spec append(list, list) :: list
-  def append([], list),         do: list
-  def append(list, []),         do: list
   def append(list, list2),      do: _append(reverse(list), list2)
   defp _append([], acc),       do: acc
   defp _append([ h | t ], acc) do
