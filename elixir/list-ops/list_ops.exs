@@ -18,8 +18,7 @@ defmodule ListOps do
   def concat(list), do: reduce(list, [], &(append &2, &1))
 
   @spec map(list, (any -> any)) :: list
-  def map([], _f),             do: []
-  def map([ head | tail ], f), do: [ f.(head) | map(tail, f) ]
+  def map(list, function), do: reduce(reverse(list), [], &([ function.(&1) | &2 ]))
 
   @spec filter(list, (any -> as_boolean(term))) :: list
   def filter([], _function),            do: []
