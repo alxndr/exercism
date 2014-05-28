@@ -21,13 +21,6 @@ defmodule ListOps do
   def map(list, function), do: reduce(reverse(list), [], &([ function.(&1) | &2 ]))
 
   @spec filter(list, (any -> as_boolean(term))) :: list
-  def filter([], _function),            do: []
-  def filter([ head | tail ], function) do
-    if function.(head) do
-      [ head | filter(tail, function) ]
-    else
-      filter(tail, function)
-    end
-  end
+  def filter(list, function), do: reduce(reverse(list), [], &(if function.(&1), do: [ &1 | &2 ], else: &2))
 
 end
