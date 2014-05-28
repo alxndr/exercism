@@ -11,6 +11,9 @@ defmodule ListOps do
   @spec reverse(list) :: list
   def reverse(list), do: reduce(list, [], &([&1 | &2]))
 
+  @spec append(list, list) :: list
+  def append(list, list2), do: reduce(reverse(list), list2, &([&1 | &2]))
+
   @spec concat([[any]]) :: [any]
   def concat(list), do: reduce(list, [], &(append &2, &1))
 
@@ -27,10 +30,5 @@ defmodule ListOps do
       filter(tail, function)
     end
   end
-
-  @spec append(list, list) :: list
-  def append(list, list2),      do: _append(reverse(list), list2)
-  defp _append([], acc),        do: acc
-  defp _append([ h | t ], acc), do: _append(t, [ h | acc ])
 
 end
