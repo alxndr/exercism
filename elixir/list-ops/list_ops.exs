@@ -14,11 +14,6 @@ defmodule ListOps do
   @spec concat([[any]]) :: [any]
   def concat(list), do: reduce(list, [], &(append &2, &1))
 
-  @spec append(list, list) :: list
-  def append(list, list2),      do: _append(reverse(list), list2)
-  defp _append([], acc),        do: acc
-  defp _append([ h | t ], acc), do: _append(t, [ h | acc ])
-
   @spec map(list, (any -> any)) :: list
   def map([], _f),             do: []
   def map([ head | tail ], f), do: [ f.(head) | map(tail, f) ]
@@ -32,5 +27,10 @@ defmodule ListOps do
       filter(tail, function)
     end
   end
+
+  @spec append(list, list) :: list
+  def append(list, list2),      do: _append(reverse(list), list2)
+  defp _append([], acc),        do: acc
+  defp _append([ h | t ], acc), do: _append(t, [ h | acc ])
 
 end
