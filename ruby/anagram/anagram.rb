@@ -1,3 +1,11 @@
+module StringAlphabetizer
+  refine String do
+    def alphabetize
+      each_char.sort.join
+    end
+  end
+end
+
 class Anagram
 
   def initialize(word)
@@ -12,13 +20,6 @@ end
 
 class AnagrammableWord
 
-  module StringAlphabetizer
-    refine String do
-      def alphabetize
-        each_char.sort.join
-      end
-    end
-  end
   using StringAlphabetizer
 
   def initialize(word)
