@@ -14,14 +14,12 @@ class Proverb
 
   def generate_lines(qualifier='')
     qualifier += ' ' unless qualifier.empty?
-
-    lines = @nouns[0...-1].map.with_index { |noun, index| make_phrase(noun, index) }
+    lines = @nouns.each_cons(2).map { |want, thing| make_sentence(want, thing) }
     lines.push "And all for the want of a #{qualifier}#{@nouns.first}."
   end
 
-  def make_phrase(noun, index)
-    next_noun = @nouns[index+1]
-    "For want of a #{noun} the #{next_noun} was lost."
+  def make_sentence(want, thing)
+    "For want of a #{want} the #{thing} was lost."
   end
 
 end
