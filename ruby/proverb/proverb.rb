@@ -1,8 +1,9 @@
 class Proverb
 
   def initialize(*args, **opts)
+    @nouns = args
     opts ||= {}
-    @proverb_lines = generate_lines(args, opts[:qualifier] || '')
+    @proverb_lines = generate_lines(opts[:qualifier] || '')
   end
 
   def to_s
@@ -11,16 +12,16 @@ class Proverb
 
   private
 
-  def generate_lines(nouns, qualifier='')
+  def generate_lines(qualifier='')
     qualifier += ' ' unless qualifier.empty?
-    noun_pairs = list_to_pairs(nouns)
 
-    lines = noun_pairs.map { |want, thing| "For want of a #{want} the #{thing} was lost." }
-    lines.push "And all for the want of a #{qualifier}#{nouns.first}."
+    lines = @nouns[0...-1].map.with_index { |noun, index| make_phrase(noun, index) }
+    lines.push "And all for the want of a #{qualifier}#{@nouns.first}."
   end
 
-  def list_to_pairs(list)
-    list.zip(list[1..-1])[0..-2]
+  def make_phrase(noun, index)
+    next_noun = @nouns[index+1]
+    "For want of a #{noun} the #{next_noun} was lost."
   end
 
 end
