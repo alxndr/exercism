@@ -5,8 +5,9 @@ class Bob
     @respond_to new Stimulus(input)
 
   respond_to: (stimulus) ->
-    for reaction in @reactions
-      return reaction.response() if reaction.test_fn(stimulus)
+    return reaction.response() \
+      for reaction in @reactions \
+      when reaction.test_fn(stimulus)
 
 class Stimulus
   constructor: (@input) ->
