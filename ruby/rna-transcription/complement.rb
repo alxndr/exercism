@@ -5,11 +5,9 @@ class Complement
     RNA: { C: :G, G: :C, U: :A, A: :T },
   }
 
-  class << self
-    [:DNA, :RNA].each do |molecule|
-      define_method "of_#{molecule.downcase}" do |nbases|
-        nbases.split('').map { |nbase| MAPPINGS[molecule][nbase.to_sym].to_s }.join('')
-      end
+  [:DNA, :RNA].each do |molecule|
+    self.define_singleton_method("of_#{molecule.downcase}") do |nbases|
+      nbases.split('').map { |nbase| MAPPINGS[molecule][nbase.to_sym].to_s }.join('')
     end
   end
 
