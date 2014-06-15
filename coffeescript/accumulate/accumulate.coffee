@@ -1,2 +1,2 @@
 Array::accumulate = (accumulator) ->
-  @map (elem) -> accumulator(elem)
+  accumulator(elem) for elem in @
