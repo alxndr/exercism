@@ -4,11 +4,11 @@ class Anagram
     @referenceWordAlphabetized = @referenceWord.toAlphabetized()
 
   match: (potentialMatches) ->
-    matches = []
-    for potentialMatch in potentialMatches
-      potentialMatch = potentialMatch.toLowerCase() 
-      if potentialMatch.toAlphabetized() is @referenceWordAlphabetized and potentialMatch isnt @referenceWord
-        matches.push potentialMatch
+    potentialMatches.reduce @findMatchesReducer.bind(@), []
+
+  findMatchesReducer: (matches, potentialMatch) ->
+    potentialMatch = potentialMatch.toLowerCase()
+    matches.push potentialMatch if potentialMatch.toAlphabetized() is @referenceWordAlphabetized and potentialMatch isnt @referenceWord
     matches
 
 String::toAlphabetized = ->
