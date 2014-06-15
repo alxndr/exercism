@@ -1,7 +1,6 @@
 class Words
   constructor: (string) ->
-    string = @sanitize(string)
-    @count = @count_unique(string.split(' '))
+    @count = @count_unique(@sanitize(string).split(' '))
 
   count_unique: (words) ->
     words.reduce(@unique_word_reducer, {})
@@ -15,6 +14,5 @@ class Words
     else
       counts[word] = 1
     counts
-
 
 module?.exports = Words
