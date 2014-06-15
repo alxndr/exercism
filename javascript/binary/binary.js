@@ -4,8 +4,8 @@ function sum_powers_of_two(sum, value, power) {
 
 function Binary(input) {
   var decimal_value;
-  input = input.match(/[01]/g) || [];
-  decimal_value = input.reverse().reduce(sum_powers_of_two, 0);
+  input = input.replace(/[^01]/g, '') || '';
+  decimal_value = parseInt(input, 2) || 0;
 
   function get_decimal() {
     return decimal_value;
