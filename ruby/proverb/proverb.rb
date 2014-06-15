@@ -2,7 +2,6 @@ class Proverb
 
   def initialize(*args, **opts)
     @nouns = args
-    opts ||= {}
     @proverb_lines = generate_lines(opts[:qualifier] || '')
   end
 
@@ -15,11 +14,15 @@ class Proverb
   def generate_lines(qualifier='')
     qualifier += ' ' unless qualifier.empty?
     lines = @nouns.each_cons(2).map { |want, thing| make_sentence(want, thing) }
-    lines.push "And all for the want of a #{qualifier}#{@nouns.first}."
+    lines.push make_last_sentence(qualifier)
   end
 
   def make_sentence(want, thing)
     "For want of a #{want} the #{thing} was lost."
+  end
+
+  def make_last_sentence(qualifier)
+    "And all for the want of a #{qualifier}#{@nouns.first}."
   end
 
 end
