@@ -8,9 +8,13 @@ function Grains() {
     return parseInt('1' + repeat('0', num-1), 2);
   }
 
+  function add_grains_on_squares(sum, _, index) {
+    return sum + grains_on_square(index+1);
+  }
+
   function all_grains() {
     var all_squares = Array.apply(undefined,new Array(64)); // 64-long array
-    return all_squares.reduce(function(sum, _, index) { return sum + grains_on_square(index+1); }, 0);
+    return all_squares.reduce(add_grains_on_squares, 0);
   }
 
   this.square = grains_on_square;
