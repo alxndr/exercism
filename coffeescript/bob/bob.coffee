@@ -1,22 +1,33 @@
 class Bob
+  constructor: (@reactions=[SilentReaction, YellingReaction, QuestioningReaction, Reaction]) ->
+
   hey: (input) ->
-    stimulus = new Stimulus(input)
-    if stimulus.is_silent()
-      return 'Fine. Be that way!'
-    if stimulus.is_shouting()
-      return 'Woah, chill out!'
-    if stimulus.is_questioning()
-      return 'Sure.'
-    return 'Whatever.'
+    @respond_to new Stimulus(input)
+
+  respond_to: (stimulus) ->
+    for reaction in @reactions
+      return reaction.response() if reaction.test_fn(stimulus)
 
 class Stimulus
-  constructor: (input) ->
-    @shouting = !input.match(/[a-z]/)
-    @questioning = !!input.match(/\?$/)
-    @silent = !!input.match(/^\s*$/)
+  constructor: (@input) ->
+  is_silent: -> !!@input.match(/^\s*$/)
+  is_yelling: -> !@input.match(/[a-z]/)
+  is_questioning: -> !!@input.match(/\?$/)
 
-  is_shouting: -> @shouting
-  is_questioning: -> @questioning
-  is_silent: -> @silent
+class Reaction
+  @response: -> 'Whatever.'
+  @test_fn: -> true
+
+class SilentReaction extends Reaction
+  @response: -> 'Fine. Be that way!'
+  @test_fn: (stimulus) -> stimulus.is_silent()
+
+class YellingReaction extends Reaction
+  @response: -> 'Woah, chill out!'
+  @test_fn: (stimulus) -> stimulus.is_yelling()
+
+class QuestioningReaction extends Reaction
+  @response: -> 'Sure.'
+  @test_fn: (stimulus) -> stimulus.is_questioning()
 
 module.exports = Bob
