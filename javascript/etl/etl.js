@@ -5,13 +5,15 @@ if (module) {
 function transform(old_schema) {
   return Object.keys(old_schema).reduce(transformer(old_schema), {});
 }
-
 function transformer(old_schema) {
   return function(new_schema, point_value) {
-    return old_schema[point_value].reduce(function(_, word){
-      new_schema[word.toLowerCase()] = int(point_value);
-      return new_schema;
-    }, new_schema);
+    var points = int(point_value);
+    var keys = old_schema[points];
+    function insert_points_into_schema(schema, word) {
+      schema[word.toLowerCase()] = points;
+      return schema;
+    }
+    return keys.reduce(insert_points_into_schema, new_schema);
   };
 }
 
