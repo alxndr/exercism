@@ -1,14 +1,14 @@
-FACTOR_MAPPINGS = [
-  {factor: 3, output: 'Pling'},
-  {factor: 5, output: 'Plang'},
-  {factor: 7, output: 'Plong'},
-]
-
 class Raindrops
-  def self.convert(num)
-    factors = FactorFinder.find_factors(num)
+  FACTOR_MAPPINGS = [
+    {factor: 3, output: 'Pling'},
+    {factor: 5, output: 'Plang'},
+    {factor: 7, output: 'Plong'},
+  ]
 
-    output = FACTOR_MAPPINGS.reduce('') { |memo, mapping| self.potentially_add_to_output memo, mapping, factors }
+  def self.convert(num)
+    @factors = FactorFinder.find_factors(num)
+
+    output = calculate_output
 
     if output.empty?
       num.to_s
@@ -17,8 +17,12 @@ class Raindrops
     end
   end
 
-  def self.potentially_add_to_output(output, mapping, factors)
-    if factors.include? mapping[:factor]
+  def self.calculate_output
+    FACTOR_MAPPINGS.reduce('') { |memo, mapping| potentially_add_to_output memo, mapping }
+  end
+
+  def self.potentially_add_to_output(output, mapping)
+    if @factors.include? mapping[:factor]
       output += mapping[:output]
     else
       output
