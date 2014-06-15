@@ -8,10 +8,7 @@ class Raindrops
   def self.convert(num)
     factors = FactorFinder.find_factors(num)
 
-    output = FACTOR_MAPPINGS.reduce('') { |memo, mapping|
-      memo += mapping[:output] if factors.include? mapping[:factor]
-      memo
-    }
+    output = FACTOR_MAPPINGS.reduce('') { |memo, mapping| self.potentially_add_to_output memo, mapping, factors }
 
     if output.empty?
       num.to_s
@@ -19,6 +16,15 @@ class Raindrops
       output
     end
   end
+
+  def self.potentially_add_to_output(output, mapping, factors)
+    if factors.include? mapping[:factor]
+      output += mapping[:output]
+    else
+      output
+    end
+  end
+
 end
 
 class FactorFinder
