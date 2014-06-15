@@ -1,4 +1,4 @@
-THINGS = [
+FACTOR_MAPPINGS = [
   {factor: 3, output: 'Pling'},
   {factor: 5, output: 'Plang'},
   {factor: 7, output: 'Plong'},
@@ -8,10 +8,10 @@ class Raindrops
   def self.convert(num)
     factors = FactorFinder.find_factors(num)
 
-    output = THINGS.reduce('') do |acc, thing|
-      acc += thing[:output] if factors.include? thing[:factor]
-      acc
-    end
+    output = FACTOR_MAPPINGS.reduce('') { |memo, mapping|
+      memo += mapping[:output] if factors.include? mapping[:factor]
+      memo
+    }
 
     if output.empty?
       num.to_s
