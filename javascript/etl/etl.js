@@ -8,8 +8,9 @@ function transform_schema(old_schema) {
 
 function create_schema_transformer(old_schema) {
   return function(new_schema, point_value) {
+    var insert_points_into_schema;
     point_value = Number(point_value);
-    function insert_points_into_schema(schema, word) {
+    insert_points_into_schema = function (schema, word) { // fn express'n doesn't get hoisted
       schema[word.toLowerCase()] = point_value;
       return schema;
     }
