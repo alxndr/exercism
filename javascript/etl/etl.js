@@ -1,22 +1,18 @@
 if (module) {
-  module.exports = transform;
+  module.exports = transform_schema;
 }
 
-function transform(old_schema) {
-  return Object.keys(old_schema).reduce(transformer(old_schema), {});
+function transform_schema(old_schema) {
+  return Object.keys(old_schema).reduce(create_schema_transformer(old_schema), {});
 }
-function transformer(old_schema) {
+
+function create_schema_transformer(old_schema) {
   return function(new_schema, point_value) {
-    var points = int(point_value);
-    var keys = old_schema[points];
+    point_value = Number(point_value);
     function insert_points_into_schema(schema, word) {
-      schema[word.toLowerCase()] = points;
+      schema[word.toLowerCase()] = point_value;
       return schema;
     }
-    return keys.reduce(insert_points_into_schema, new_schema);
+    return old_schema[point_value].reduce(insert_points_into_schema, new_schema);
   };
-}
-
-function int(a_string) {
-  return parseInt(a_string, 10);
 }
