@@ -18,6 +18,16 @@ describe 'Prime', ->
     prime = Prime.nth(10001)
     expect(prime).toEqual(104743)
 
+  it 'bigger primes', ->
+    MAPPING =
+      10010: 104831
+      10050: 105341
+      10100: 105943
+      10200: 107033
+    for nth in Object.keys(MAPPING)
+      prime = Prime.nth(nth)
+      expect(prime).toEqual(MAPPING[nth])
+
   it 'weird case', ->
     try
       Prime.nth(0)
