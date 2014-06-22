@@ -11,14 +11,14 @@ class PalindromesInRange
       for fasterCounter in [slowerCounter..@maxFactor]
         pp = new PotentialPalindrome(slowerCounter, fasterCounter)
         if pp.isPalindrome
-          if pp.multiple < @palindromes.smallest.value or !@palindromes.smallest.factors.length
-            @reset 'smallest', pp.multiple, pp.factors
-          else if pp.multiple == @palindromes.smallest.value
-            @add 'smallest', pp.factors
+          if pp.multiple > @palindromes.largest.value
+            @reset 'largest', pp.multiple, pp.factors
           else if pp.multiple == @palindromes.largest.value
             @add 'largest', pp.factors
-          else if pp.multiple > @palindromes.largest.value
-            @reset 'largest', pp.multiple, pp.factors
+          if pp.multiple == @palindromes.smallest.value
+            @add 'smallest', pp.factors
+          else if pp.multiple < @palindromes.smallest.value or !@palindromes.smallest.factors.length
+            @reset 'smallest', pp.multiple, pp.factors
 
   largest: -> @palindromes.largest
 
