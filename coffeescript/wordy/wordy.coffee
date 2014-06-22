@@ -12,7 +12,6 @@ class Operator
   constructor: (@sym) ->
 
   calculate: ({left, right})->
-    console.log "calculating #{left} #{@sym} #{right}"
     switch @sym
       when '+' then left + right
       when '-' then left - right
@@ -21,34 +20,32 @@ class Operator
       else throw "Don't know that trick: '#{@sym}'"
 
 class WordProblem
-  constructor: (question) ->
+  ERROR: tooComplicated: new Error('WordProblem: input problem is too complicated')
+
+  constructor: (questionText) ->
     @operatorStack = []
-    console.log "operatorStack: #{@operatorStack}"
-    @lexed = @sanitize(question).reduce(@lexer, [])#.logEach('lexed')
-    @answer = @lexed.logEm('about to reduce->calculate').reduce(@calculate, []).logEach('calculated')
+    @lexed = @sanitize(questionText).reduce(@lexer, [])
+    @operandStack = @lexed.reduce(@parseTokens.bind(@), [])
+
+  answer: ->
+    throw @ERROR.tooComplicated unless @lexed.length > 1
+    @operandStack[0]
 
   sanitize: (questionText) -> questionText.replace(/\?$/,'').split(' ')
 
-  calculate: (operandStack, token) ->
-    console.log "operands:#{operandStack}"
-    console.log "operatorStack: #{@operatorStack}"
+  parseTokens: (operandStack, token) ->
     if token == Number(token)
-      console.log "number: #{token}"
       operandStack.push token
-      if operandStack.length > 1 and @operatorStack.length
-        # all operands are binary
-        leftOperand = operandStack.pop()
-        operator = @operatorStack.pop()
-        result = operator.calculate(left: leftOperand, right: token)
-        console.log "#{leftOperand} #{operator} #{token}: #{result}"
-        operandStack.push result
-        console.log "maybe explicitly call calculate()?"
-        @calculate.apply @, [operandStack, result]
+      operandStack.push @performOperation(operandStack) if operandStack.length > 1 and @operatorStack.length
     else
-      console.log "operator #{token}"
       @operatorStack.push new Operator(token)
-    console.log operandStack
     operandStack
+
+  performOperation: (operandStack) ->
+    # all operands are binary
+    rightOperand = operandStack.pop()
+    leftOperand = operandStack.pop()
+    @operatorStack.pop().calculate(left: leftOperand, right: rightOperand)
 
   lexer: (tokenArray, word) ->
     if word.match NUMBER_REGEX
