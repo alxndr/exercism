@@ -6,13 +6,13 @@ describe "Beer", ->
     Take one down and pass it around, 7 bottles of beer on the wall.
     """
 
-  xit "handles 1 bottle", ->
+  it "handles 1 bottle", ->
     expect(Beer.verse 1).toEqual """
     1 bottle of beer on the wall, 1 bottle of beer.
     Take it down and pass it around, no more bottles of beer on the wall.
     """
 
-  xit "handles 0 bottles", ->
+  it "handles 0 bottles", ->
     expect(Beer.verse 0).toEqual """
     No more bottles of beer on the wall, no more bottles of beer.
     Go to the store and buy some more, 99 bottles of beer on the wall.
