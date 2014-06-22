@@ -7,26 +7,31 @@ class Queen
 
 class Queens
   constructor: (config) ->
-    @white = config?.white or [0, 3]
     @black = config?.black or [7, 3]
-    @whiteQueen = new Queen(@white...)
+    @white = config?.white or [0, 3]
     @blackQueen = new Queen(@black...)
+    @whiteQueen = new Queen(@white...)
     throw 'Queens cannot share the same space' if @whiteQueen.sameCell(@blackQueen)
 
   canAttack: -> @whiteQueen.withinRange @blackQueen
 
   toString: ->
-    rows = []
-    for i in [0..7]
-      cells = []
-      for j in [0..7]
-        if @white[0] == j and @white[1] == i
-          cells.push 'W'
-        else if @black[0] == j and @black[1] == i
-          cells.push 'B'
-        else
-          cells.push 'O'
-      rows.push cells.join(' ')
-    rows.join '\n'
+    @columns().reduce((columns, column) =>
+      columns.push @rows(column).map((row) =>
+        @cellToString(row: row, column: column)
+      ).join ' '
+      columns
+    , []).join '\n'
+
+  cellToString: ({column, row}) ->
+    if @blackQueen.row == row and @blackQueen.column == column
+      'B'
+    else if @whiteQueen.row == row and @whiteQueen.column == column
+      'W'
+    else
+      'O'
+
+  rows: -> [0..7]
+  columns: -> [0..7]
 
 module?.exports = Queens
