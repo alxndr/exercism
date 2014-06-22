@@ -24,9 +24,7 @@ class AtbashCipher
       chunks
     , []).join(' ')
 
-  encode: -> @encodedString
-
 AtbashCipher.encode = (string) ->
-  new AtbashCipher(string).encode()
+  new AtbashCipher(string).encodedString
 
 module?.exports = AtbashCipher
