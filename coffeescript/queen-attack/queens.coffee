@@ -5,7 +5,7 @@ class Queen
 
   withinRange: (queen) -> @row == queen.row or @column == queen.column or Math.abs(@row - @column) == Math.abs(queen.row - queen.column)
 
-class Queens
+class QueensOnBoard
   constructor: (config) ->
     @black = config?.black or [7, 3]
     @white = config?.white or [0, 3]
@@ -34,4 +34,4 @@ class Queens
   rows: -> [0..7]
   columns: -> [0..7]
 
-module?.exports = Queens
+module?.exports = QueensOnBoard
