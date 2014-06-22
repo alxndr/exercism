@@ -3,16 +3,16 @@ NUMBER_REGEX = /\d/
 class WordProblem
   constructor: (questionText) ->
     @operatorStack = []
-    @lexed = @sanitize(questionText).reduce(@lexer, [])
-    @operandStack = @lexed.reduce(@parseTokens.bind(@), [])
+    @tokens = @sanitize(questionText).reduce(@buildTokenArray, [])
+    @parsedTokens = @tokens.reduce(@parseTokens.bind(@), [])
 
   answer: ->
-    throw @ERROR.tooComplicated unless @lexed.length > 1
-    @operandStack[0]
+    throw @ERROR.tooComplicated unless @parsedTokens.length == 1 and @tokens.length > 1
+    @parsedTokens[0]
 
   sanitize: (questionText) -> questionText.replace(/\?$/,'').split(' ')
 
-  lexer: (tokenArray, word) ->
+  buildTokenArray: (tokenArray, word) ->
     if word.match NUMBER_REGEX
       tokenArray.push parseInt(word, 10)
     else if word is 'plus'
