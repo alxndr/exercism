@@ -1,27 +1,6 @@
 NUMBER_REGEX = /\d/
 
-Array::tap = (callback) ->
-  @forEach (element) -> callback element
-  @
-Array::logEach = (msg='') -> @tap (element) -> console.log(msg, element)
-Array::logEm = (msg='') ->
-  console.log msg, @
-  @
-
-class Operator
-  constructor: (@sym) ->
-
-  calculate: ({left, right})->
-    switch @sym
-      when '+' then left + right
-      when '-' then left - right
-      when '*' then left * right
-      when '/' then left / right
-      else throw "Don't know that trick: '#{@sym}'"
-
 class WordProblem
-  ERROR: tooComplicated: new Error('WordProblem: input problem is too complicated')
-
   constructor: (questionText) ->
     @operatorStack = []
     @lexed = @sanitize(questionText).reduce(@lexer, [])
@@ -32,6 +11,19 @@ class WordProblem
     @operandStack[0]
 
   sanitize: (questionText) -> questionText.replace(/\?$/,'').split(' ')
+
+  lexer: (tokenArray, word) ->
+    if word.match NUMBER_REGEX
+      tokenArray.push parseInt(word, 10)
+    else if word is 'plus'
+      tokenArray.push '+'
+    else if word is 'minus'
+      tokenArray.push '-'
+    else if word is 'multiplied'
+      tokenArray.push '*'
+    else if word is 'divided'
+      tokenArray.push '/'
+    tokenArray
 
   parseTokens: (operandStack, token) ->
     if token == Number(token)
@@ -47,17 +39,18 @@ class WordProblem
     leftOperand = operandStack.pop()
     @operatorStack.pop().calculate(left: leftOperand, right: rightOperand)
 
-  lexer: (tokenArray, word) ->
-    if word.match NUMBER_REGEX
-      tokenArray.push parseInt(word, 10)
-    else if word is 'plus'
-      tokenArray.push '+'
-    else if word is 'minus'
-      tokenArray.push '-'
-    else if word is 'multiplied'
-      tokenArray.push '*'
-    else if word is 'divided'
-      tokenArray.push '/'
-    tokenArray
+  ERROR:
+    tooComplicated: new Error('WordProblem: input problem is too complicated')
+
+class Operator
+  constructor: (@sym) ->
+
+  calculate: ({left, right})->
+    switch @sym
+      when '+' then left + right
+      when '-' then left - right
+      when '*' then left * right
+      when '/' then left / right
+      else throw "Don't know that trick: '#{@sym}'"
 
 module?.exports = WordProblem
