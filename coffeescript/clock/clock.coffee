@@ -1,39 +1,23 @@
 class Clock
-  constructor: (@hour, @minute=0) ->
+  constructor: (hour, minute=0) ->
+    @date = new Date(null, null, null, hour, minute)
 
   plus: (addMinutes) ->
-    @minute += addMinutes
-    @checkOverflow()
+    @date = new Date(Number(@date) + @MILLISEC_PER_SEC * @SEC_PER_MIN * addMinutes)
     @
 
-  minus: (subtractMinutes) ->
-    @minute -= subtractMinutes
-    @checkOverflow()
-    @
+  minus: (subtractMinutes) -> @plus(-1 * subtractMinutes)
 
   equals: (otherClock) -> @toString() == otherClock.toString()
 
-  toString: -> "#{zeroPad(@hour)}:#{zeroPad(@minute)}"
+  toString: -> "#{@zeroPad @date.getHours()}:#{@zeroPad @date.getMinutes()}"
 
-  checkOverflow: ->
-    if @minute >= @MINS_PER_HOUR
-      @hour += Math.floor(@minute / @MINS_PER_HOUR)
-      @minute %= @MINS_PER_HOUR
-    else if @minute < 1
-      hourDeficit = Math.floor(@minute / @MINS_PER_HOUR)
-      @hour += hourDeficit
-      @minute += @MINS_PER_HOUR * Math.abs(hourDeficit)
-    if @hour >= @HOURS_PER_DAY
-      @hour %= @HOURS_PER_DAY
-    else if @hour < 0
-      @hour += @HOURS_PER_DAY * Math.abs(Math.floor(@hour / @MINS_PER_HOUR))
+  zeroPad: (num=0) -> ('00' + num).substr(-2, 2)
 
-  MINS_PER_HOUR: 60
-  HOURS_PER_DAY: 24
+  MILLISEC_PER_SEC: 1000
+  SEC_PER_MIN: 60
 
 Clock.at = (h, m) ->
   new Clock(h, m)
-
-zeroPad = (num=0) -> ('00' + num).substr(-2, 2)
 
 module?.exports = Clock
