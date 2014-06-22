@@ -18,7 +18,7 @@ describe "Beer", ->
     Go to the store and buy some more, 99 bottles of beer on the wall.
     """
 
-  xit "sings several verses", ->
+  it "sings several verses", ->
     expect(Beer.sing 8, 6).toEqual """
     8 bottles of beer on the wall, 8 bottles of beer.
     Take one down and pass it around, 7 bottles of beer on the wall.
@@ -31,7 +31,7 @@ describe "Beer", ->
 
     """
 
-  xit "sings the rest of the verses", ->
+  it "sings the rest of the verses", ->
     expect(Beer.sing 3).toEqual """
     3 bottles of beer on the wall, 3 bottles of beer.
     Take one down and pass it around, 2 bottles of beer on the wall.

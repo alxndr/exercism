@@ -6,11 +6,9 @@ class BeerVerse
     #{@actionPhrase(@num)}, #{@beerOnWallPhrase(if @num then @num - 1 else 99)}.
     """
 
-  beerOnWallPhrase: (num) ->
-    "#{@beerPhrase(num)} on the wall"
+  beerOnWallPhrase: (num) -> "#{@beerPhrase(num)} on the wall"
 
-  beerPhrase: (num) ->
-    "#{if num == 0 then 'no more' else num} bottle#{if num != 1 then 's' else ''} of beer"
+  beerPhrase: (num) -> "#{if num == 0 then 'no more' else num} bottle#{if num != 1 then 's' else ''} of beer"
 
   actionPhrase: (num) ->
     switch num
@@ -18,9 +16,13 @@ class BeerVerse
       when 1 then "Take it down and pass it around"
       else        "Take one down and pass it around"
 
-BeerVerse.verse = (num) ->
-  new BeerVerse(num).toString()
+BeerSong =
+  verse: (num) ->
+    new BeerVerse(num).toString()
+
+  sing: (from, to=0) ->
+    [from..to].map((num) -> BeerSong.verse(num)).join("\n\n") + "\n"
 
 String::capitalize = -> @[0].toUpperCase() + @slice(1)
 
-module?.exports = BeerVerse
+module?.exports = BeerSong
