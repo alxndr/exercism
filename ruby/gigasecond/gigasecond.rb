@@ -2,8 +2,6 @@ class Gigasecond
 
   SECONDS_PER_GS = 10**9
 
-  attr_reader :date
-
   def initialize(start_date)
     @start_date = start_date
   end
