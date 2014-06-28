@@ -7,7 +7,7 @@ class Grains
   end
 
   def total
-    (1..NUM_SQUARES).inject(0) { |sum, i| sum + square(i) }
+    square(NUM_SQUARES + 1) - 1
   end
 
 end
