@@ -1,7 +1,7 @@
 class PalindromesInRange
-  constructor: (config) ->
-    @minFactor = config.minFactor or 1
-    @maxFactor = config.maxFactor or 1
+  constructor: ({@minFactor, @maxFactor}) ->
+    @minFactor ||= 1
+    @maxFactor ||= 1
     @palindromes =
       largest:
         value: null
@@ -19,6 +19,7 @@ class PalindromesInRange
             @reset 'largest', pp.multiple, pp.factors
           else if pp.multiple == @palindromes.largest.value
             @add 'largest', pp.factors
+
           if pp.multiple == @palindromes.smallest.value
             @add 'smallest', pp.factors
           else if pp.multiple < @palindromes.smallest.value or !@palindromes.smallest.factors.length
@@ -41,7 +42,6 @@ class PotentialPalindrome
     @isPalindrome = isPalindrome(@multiple.toString())
     @factors = [@a, @b]
 
-isPalindrome = (str) ->
-  str is str.split("").reverse().join("")
+isPalindrome = (str) -> str is str.split("").reverse().join("")
 
 module?.exports = PalindromesInRange
