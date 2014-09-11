@@ -56,21 +56,27 @@ function Bob() {
   ];
 
   function respond_to(stimulus) {
-    var response;
+
     stimulus = stimulus.trim();
 
-    REACTIONS.some(function(AReaction) {
-      var reaction = new AReaction();
-      if (reaction.test(stimulus)) {
-        response = reaction.response;
-        return true;
-      }
-    });
+    return REACTIONS.reduce(function(response, AReaction) {
+      var reaction;
 
-    return response;
+      if (response) {
+        return response;
+      }
+
+      reaction = new AReaction();
+
+      if (reaction.test(stimulus)) {
+        return reaction.response;
+      }
+    }, null);
   }
 
-  this.hey = respond_to;
+  return {
+    hey: respond_to
+  };
 }
 
 if (module) {
