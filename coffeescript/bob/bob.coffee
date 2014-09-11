@@ -19,15 +19,15 @@ class Reaction
   @response: -> 'Whatever.'
   @test_fn: -> true
 
-class SilentReaction extends Reaction
+class SilentReaction
   @response: -> 'Fine. Be that way!'
   @test_fn: (stimulus) -> stimulus.is_silent()
 
-class YellingReaction extends Reaction
+class YellingReaction
   @response: -> 'Woah, chill out!'
   @test_fn: (stimulus) -> stimulus.is_yelling()
 
-class QuestioningReaction extends Reaction
+class QuestioningReaction
   @response: -> 'Sure.'
   @test_fn: (stimulus) -> stimulus.is_questioning()
 
