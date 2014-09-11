@@ -1,44 +1,80 @@
-function Reaction(input) {
-  this.input = input;
-  this.test = function() { return true; };
-  this.response = 'Whatever.';
-  this.get_response = function() { return this.response; };
+function function_that_returns(thing) {
+  return function() { return thing; };
+}
+
+function Reaction() {
+  var response = 'Whatever.';
+
+  function yep() {
+    return true;
+  }
+
+  return {
+    test: yep,
+    get_response: function_that_returns(response)
+  };
 }
 
 function SilentReaction() {
-  Reaction.apply(this, arguments);
-  this.test = function is_silent() { return (this.input === ''); };
-  this.response = 'Fine. Be that way!';
+  var response = 'Fine. Be that way!';
+
+  function is_silent(input) {
+    return (input === '');
+  }
+
+  return {
+    test: is_silent,
+    get_response: function_that_returns(response)
+  };
 }
-SilentReaction.prototype = Object.create(Reaction.prototype);
 
 function YellingReaction() {
-  Reaction.apply(this, arguments);
-  this.test = function is_yelling() { return (this.input.toUpperCase() === this.input && /[A-Z]/.test(this.input)); };
-  this.response = 'Woah, chill out!';
+  var response = 'Woah, chill out!';
+
+  function is_yelling(input) {
+    return (input.toUpperCase() === input && /[A-Z]/.test(input));
+  }
+
+  return {
+    test: is_yelling,
+    get_response: function_that_returns(response)
+  };
 }
-YellingReaction.prototype = Object.create(Reaction.prototype);
 
 function QuestioningReaction() {
-  Reaction.apply(this, arguments);
-  this.test = function is_questioning() { return (this.input.slice(-1) === '?' && !new YellingReaction(this.input).test()); };
-  this.response = 'Sure.';
+  var response = 'Sure.';
+
+  function is_questioning(input) {
+    return (input.slice(-1) === '?' && !new YellingReaction().test(input));
+  }
+
+  return {
+    test: is_questioning,
+    get_response: function_that_returns(response)
+  };
 }
-QuestioningReaction.prototype = Object.create(Reaction.prototype);
 
 function Bob() {
-  var REACTIONS = [ SilentReaction, YellingReaction, QuestioningReaction, Reaction ];
+
+  var REACTIONS = [
+    SilentReaction,
+    YellingReaction,
+    QuestioningReaction,
+    Reaction
+  ];
 
   function respond_to(stimulus) {
     var response;
     stimulus = stimulus.trim();
+
     REACTIONS.some(function(AReaction) {
-      var reaction = new AReaction(stimulus);
-      if (reaction.test()) {
+      var reaction = new AReaction();
+      if (reaction.test(stimulus)) {
         response = reaction.get_response();
         return true;
       }
     });
+
     return response;
   }
 
