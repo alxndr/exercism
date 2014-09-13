@@ -1,4 +1,5 @@
 class PalindromesInRange
+
   constructor: ({@minFactor, @maxFactor}) ->
     @minFactor or= 1
     @maxFactor or= 1
@@ -9,12 +10,16 @@ class PalindromesInRange
       for fasterCounter in [slowerCounter..@maxFactor]
         product = slowerCounter * fasterCounter
         continue unless isPalindrome product.toString()
-        @palindromes[product] = value: product, factors: [] unless @palindromes[product]
+        @palindromes[product] = @newPalindrome(product) unless @palindromes[product]
         @palindromes[product].factors.push [slowerCounter, fasterCounter]
 
-  largest: -> @palindromes[@palindromes.length - 1]
+  firstPalindrome: -> @palindromes[Object.keys(@palindromes)[0]]
+  lastPalindrome: -> @palindromes[@palindromes.length - 1]
 
-  smallest: -> return palindrome for palindrome in @palindromes when palindrome
+  largest: -> @lastPalindrome()
+  smallest: -> @firstPalindrome()
+
+  newPalindrome: (product) -> value: product, factors: []
 
 isPalindrome = (str) -> str is str.split("").reverse().join("")
 
