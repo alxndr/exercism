@@ -1,12 +1,13 @@
 class Bob
+
   constructor: (@reactions=[SilentReaction, YellingReaction, QuestioningReaction, Reaction]) ->
 
-  hey: (input) ->
-    @respondTo new Stimulus(input)
+  hey: (input) -> @respondTo new Stimulus(input)
 
   respondTo: (stimulus) ->
-    for reaction in @reactions
-      return reaction.response if reaction.test(stimulus)
+    for ReactionClass in @reactions
+      reaction = new ReactionClass()
+      return reaction.response if reaction.isAppropriateFor stimulus
 
 class Stimulus
   constructor: (@input) ->
@@ -15,19 +16,19 @@ class Stimulus
   isQuestioning: -> /\?$/.test(@input)
 
 class Reaction
-  @response: 'Whatever.'
-  @test: -> true
+  response: 'Whatever.'
+  isAppropriateFor: -> true
 
 class SilentReaction
-  @response: 'Fine. Be that way!'
-  @test: (stimulus) -> stimulus.isSilent()
+  response: 'Fine. Be that way!'
+  isAppropriateFor: (stimulus) -> stimulus.isSilent()
 
 class YellingReaction
-  @response: 'Woah, chill out!'
-  @test: (stimulus) -> stimulus.isYelling()
+  response: 'Woah, chill out!'
+  isAppropriateFor: (stimulus) -> stimulus.isYelling()
 
 class QuestioningReaction
-  @response: 'Sure.'
-  @test: (stimulus) -> stimulus.isQuestioning()
+  response: 'Sure.'
+  isAppropriateFor: (stimulus) -> stimulus.isQuestioning()
 
 module.exports = Bob
