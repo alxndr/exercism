@@ -10,9 +10,9 @@ class Bob
 
 class Stimulus
   constructor: (@input) ->
-  isSilent: -> !!@input.match(/^\s*$/)
-  isYelling: -> !@input.match(/[a-z]/)
-  isQuestioning: -> !!@input.match(/\?$/)
+  isSilent: -> /^\s*$/.test(@input)
+  isYelling: -> !/[a-z]/.test(@input)
+  isQuestioning: -> /\?$/.test(@input)
 
 class Reaction
   @response: 'Whatever.'
