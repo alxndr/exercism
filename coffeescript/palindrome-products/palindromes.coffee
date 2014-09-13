@@ -1,45 +1,24 @@
 class PalindromesInRange
   constructor: ({@minFactor, @maxFactor}) ->
-    @minFactor ||= 1
-    @maxFactor ||= 1
-    @palindromes =
-      largest:
-        value: null
-        factors: []
-      smallest:
-        value: null
-        factors: []
+    @minFactor or= 1
+    @maxFactor or= 1
+    @palindromes = []
 
   generate: ->
     for slowerCounter in [@minFactor..@maxFactor]
       for fasterCounter in [slowerCounter..@maxFactor]
-        pp = new PotentialPalindrome(slowerCounter, fasterCounter)
-        if pp.isPalindrome
-          if pp.multiple > @palindromes.largest.value
-            @reset 'largest', pp.multiple, pp.factors
-          else if pp.multiple == @palindromes.largest.value
-            @add 'largest', pp.factors
+        product = slowerCounter * fasterCounter
+        continue unless isPalindrome product.toString()
+        @palindromes[product] = value: product, factors: [] unless @palindromes[product]
+        @palindromes[product].factors.push [slowerCounter, fasterCounter]
 
-          if pp.multiple == @palindromes.smallest.value
-            @add 'smallest', pp.factors
-          else if pp.multiple < @palindromes.smallest.value or !@palindromes.smallest.factors.length
-            @reset 'smallest', pp.multiple, pp.factors
+  largest: -> @palindromes[@palindromes.length - 1]
 
-  largest: -> @palindromes.largest
+  smallest: -> return palindrome for palindrome in @palindromes when palindrome
 
-  smallest: -> @palindromes.smallest
-
-  reset: (which, multiple, factors) ->
-    @palindromes[which].value = multiple
-    @palindromes[which].factors = [factors]
-
-  add: (which, factors) ->
-    @palindromes[which].factors.push factors
-
-class PotentialPalindrome
+class Palindrome
   constructor: (@a, @b) ->
     @multiple = @a * @b
-    @isPalindrome = isPalindrome(@multiple.toString())
     @factors = [@a, @b]
 
 isPalindrome = (str) -> str is str.split("").reverse().join("")

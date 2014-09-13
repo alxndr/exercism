@@ -2,6 +2,13 @@ Palindromes = require('./palindromes')
 
 describe "Palindrome", ->
 
+  it "smallest palindrome from single digit factors", ->
+    palindromes = new Palindromes({maxFactor: 9})
+    palindromes.generate()
+    smallest = palindromes.smallest()
+    expect(smallest.value).toEqual(1)
+    expect([[[1, 1]]]).toContain(smallest.factors)
+
   it "largest palindrome from single digit factors", ->
     palindromes = new Palindromes({maxFactor: 9})
     palindromes.generate()
@@ -9,7 +16,7 @@ describe "Palindrome", ->
     expect(largest.value).toEqual(9)
     expect([[[3, 3], [1, 9]], [[1, 9], [3, 3]]]).toContain(largest.factors)
 
-  it "largets palindrome from double digit factors", ->
+  it "largest palindrome from double digit factors", ->
     palindromes = new Palindromes({ maxFactor: 99, minFactor: 10 })
     palindromes.generate()
     largest = palindromes.largest()
