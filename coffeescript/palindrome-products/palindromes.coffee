@@ -16,11 +16,6 @@ class PalindromesInRange
 
   smallest: -> return palindrome for palindrome in @palindromes when palindrome
 
-class Palindrome
-  constructor: (@a, @b) ->
-    @multiple = @a * @b
-    @factors = [@a, @b]
-
 isPalindrome = (str) -> str is str.split("").reverse().join("")
 
 module?.exports = PalindromesInRange
