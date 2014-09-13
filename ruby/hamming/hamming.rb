@@ -1,13 +1,14 @@
 class Hamming
 
   def self.compute(first, second)
-    min_length = [first.length, second.length].min
-    first = first.slice(0...min_length)
-    second = second.slice(0...min_length)
+    first, second = first.chars, second.chars
+    if first.length < second.length
+      shorter, longer = first, second
+    else
+      shorter, longer = second, first
+    end
 
-    first_split, second_split = first.chars, second.chars
-
-    first_split.zip(second_split).count { |pair| pair[0] != pair[1] }
+    shorter.zip(longer).count { |pair| pair[0] != pair[1] }
   end
 
 end
