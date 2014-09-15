@@ -40,11 +40,11 @@ defmodule ListOps do
   end
 
   def reducer_with(test_function) do
-    fn(a, b) ->
-      if test_function.(a) do
-        [ a | b ]
+    fn(element, acc) ->
+      if test_function.(element) do
+        [ element | acc ]
       else
-        b
+        acc
       end
     end
   end
