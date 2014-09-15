@@ -36,7 +36,17 @@ defmodule ListOps do
 
   @spec filter(list, (any -> as_boolean(term))) :: list
   def filter(list, fxn) do
-    reduce(reverse(list), [], &(if fxn.(&1), do: [ &1 | &2 ], else: &2))
+    reduce(reverse(list), [], reducer_with(fxn))
+  end
+
+  def reducer_with(test_function) do
+    fn(a, b) ->
+      if test_function.(a) do
+        [ a | b ]
+      else
+        b
+      end
+    end
   end
 
 end
