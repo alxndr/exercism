@@ -1,22 +1,22 @@
-function count_unique_elements(accumulator, element) {
-  if (accumulator.hasOwnProperty(element)) {
-    accumulator[element]++;
-  } else {
-    accumulator[element] = 1;
-  }
-  return accumulator;
-}
-
 var REGEX_PUNCTUATION = /[\u00A1\u00BF\u2000-\u206F\u2E00-\u2E7F\\'!"#\$%&\(\)\*\+,\-\.\/:;<=>\?@\[\]\^_`\{\|\}~]/g;
 
-function strip_punctuation(str) {
-  return str.replace(REGEX_PUNCTUATION, '').toLowerCase();
+function countUniqueElements(sums, word) {
+  if (sums.hasOwnProperty(word)) {
+    sums[word]++;
+  } else {
+    sums[word] = 1;
+  }
+  return sums;
 }
 
-function word_analyzer(text) {
-  return strip_punctuation(text).split(/\s+/).reduce(count_unique_elements, {});
+function stripPunctuation(str) {
+  return str.replace(REGEX_PUNCTUATION, '');
+}
+
+function wordAnalyzer(text) {
+  return stripPunctuation(text).toLowerCase().split(/\s+/).reduce(countUniqueElements, {});
 }
 
 if (module) {
-  module.exports = word_analyzer;
+  module.exports = wordAnalyzer;
 }
