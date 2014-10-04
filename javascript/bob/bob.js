@@ -1,51 +1,3 @@
-function Reaction() {
-
-  function yep() {
-    return true;
-  }
-
-  return {
-    test: yep,
-    response: 'Whatever.'
-  };
-}
-
-function SilentReaction() {
-
-  function is_silent(input) {
-    return (input === '');
-  }
-
-  return {
-    test: is_silent,
-    response: 'Fine. Be that way!'
-  };
-}
-
-function YellingReaction() {
-
-  function is_yelling(input) {
-    return (input.toUpperCase() === input && /[A-Z]/.test(input));
-  }
-
-  return {
-    test: is_yelling,
-    response: 'Woah, chill out!'
-  };
-}
-
-function QuestioningReaction() {
-
-  function is_questioning(input) {
-    return (input.slice(-1) === '?' && !new YellingReaction().test(input));
-  }
-
-  return {
-    test: is_questioning,
-    response: 'Sure.'
-  };
-}
-
 function Bob() {
 
   var REACTIONS = [
@@ -55,19 +7,13 @@ function Bob() {
     Reaction
   ];
 
-  function respond_to(stimulus) {
-
+  function respondTo(stimulus) {
     stimulus = stimulus.trim();
-
     return REACTIONS.reduce(function(response, AReaction) {
-      var reaction;
-
       if (response) {
         return response;
       }
-
-      reaction = new AReaction();
-
+      var reaction = new AReaction();
       if (reaction.test(stimulus)) {
         return reaction.response;
       }
@@ -75,9 +21,46 @@ function Bob() {
   }
 
   return {
-    hey: respond_to
+    hey: respondTo
   };
 }
+
+function Reaction() {
+  return {
+    response: 'Whatever.',
+    test: function always() {
+      return true;
+    }
+  };
+}
+
+function SilentReaction() {
+  return {
+    response: 'Fine. Be that way!',
+    test: function isSilent(input) {
+      return (input === '');
+    }
+  }
+}
+
+function YellingReaction() {
+  return {
+    response: 'Woah, chill out!',
+    test: function isYelling(input) {
+      return (input.toUpperCase() === input && /[A-Z]/.test(input));
+    }
+  };
+}
+
+function QuestioningReaction() {
+  return {
+    response: 'Sure.',
+    test: function isQuestioning(input) {
+      return (input.slice(-1) === '?' && !new YellingReaction().test(input));
+    }
+  };
+}
+
 
 if (module) {
   module.exports = Bob;
