@@ -1,17 +1,13 @@
-var dnaToRnaMapping = {
-  C: 'G',
-  G: 'C',
-  A: 'U',
-  T: 'A'
-};
-function dnaNucleotideToRna(dnaNucleotide) {
-  return dnaToRnaMapping[dnaNucleotide];
+var rnaComplementMapping = { C: 'G', G: 'C', A: 'U', T: 'A' };
+
+function rnaComplement(dnaNucleotide) {
+  return rnaComplementMapping[dnaNucleotide];
 }
 
-function dnaNucleotidesToRna(dnaNucleotides) {
-  return dnaNucleotides.replace(/./g, dnaNucleotideToRna);
+function convertDnaNucleotidesToRna(dnaNucleotides) {
+  return dnaNucleotides.replace(/./g, rnaComplement);
 }
 
 if (module) {
-  module.exports = dnaNucleotidesToRna;
+  module.exports = convertDnaNucleotidesToRna;
 }
