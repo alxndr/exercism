@@ -64,4 +64,27 @@ class SchoolTest < MiniTest::Unit::TestCase
     assert_equal sorted, school.to_hash
     assert_equal [3, 4, 6], school.to_hash.keys
   end
+
+  def test_cant_modify_school_via_to_hash
+    school.add "Bart", 4
+    school.add "Lisa", 2
+
+    begin
+      school.to_hash[4].push "Lisa"
+    rescue NoMethodError; end
+
+    assert_equal ["Bart"], school.grade(4)
+  end
+
+  def test_cant_modify_school_via_grade
+    school.add "Lisa", 2
+    school.add "Bart", 4
+
+    begin
+      school.grade(2).push "Maggie"
+    rescue NoMethodError; end
+
+    assert_equal ["Lisa"], school.grade(2)
+  end
+
 end
