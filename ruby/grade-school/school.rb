@@ -25,8 +25,8 @@ class Roster
   end
 
   def add(name, grade)
-    find_grade(grade) << name
-    @roster[grade].sort! # TODO use sorted list
+    find_grade(grade).push name
+    @roster[grade].sort!
   end
 
   def find_grade(num)
@@ -34,7 +34,7 @@ class Roster
   end
 
   def to_hash
-    Hash[@roster.sort]
+    Hash[@roster]
   end
 
 end
