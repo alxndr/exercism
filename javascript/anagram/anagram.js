@@ -1,7 +1,3 @@
-function alphabetize(word) {
-  return word.toLowerCase().split('').sort().join('');
-}
-
 function Anagram(startingWord) {
   var alphabetizedStartingWord;
 
@@ -10,8 +6,10 @@ function Anagram(startingWord) {
 
   function isAnAnagram(otherWord) {
     otherWord = otherWord.toLowerCase();
-    return (startingWord !== otherWord && alphabetizedStartingWord === alphabetize(otherWord));
+    return (startingWord !== otherWord && \
+            alphabetizedStartingWord === alphabetize(otherWord));
   }
+
   function findMatchesAmong(potentialAnagrams) {
     if (typeof potentialAnagrams === 'string') {
       potentialAnagrams = [].slice.apply(arguments);
@@ -22,6 +20,10 @@ function Anagram(startingWord) {
   return {
     matches: findMatchesAmong
   };
+}
+
+function alphabetize(word) {
+  return word.split('').sort().join('');
 }
 
 if (module) {
