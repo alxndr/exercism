@@ -17,7 +17,7 @@ function Anagram(starting_word) {
   }
 
   return {
-    match: find_matches_among
+    matches: find_matches_among
   };
 }
 
