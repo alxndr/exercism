@@ -2,25 +2,25 @@ function alphabetize(word) {
   return word.toLowerCase().split('').sort().join('');
 }
 
-function Anagram(starting_word) {
-  var alphabetized_starting_word;
+function Anagram(startingWord) {
+  var alphabetizedStartingWord;
 
-  starting_word = starting_word.toLowerCase();
-  alphabetized_starting_word = alphabetize(starting_word);
+  startingWord = startingWord.toLowerCase();
+  alphabetizedStartingWord = alphabetize(startingWord);
 
-  function is_an_anagram(other_word) {
-    other_word = other_word.toLowerCase();
-    return (starting_word !== other_word && alphabetized_starting_word === alphabetize(other_word));
+  function isAnAnagram(otherWord) {
+    otherWord = otherWord.toLowerCase();
+    return (startingWord !== otherWord && alphabetizedStartingWord === alphabetize(otherWord));
   }
-  function find_matches_among(potential_anagrams) {
-    if (typeof potential_anagrams === 'string') {
-      potential_anagrams = [].slice.apply(arguments);
+  function findMatchesAmong(potentialAnagrams) {
+    if (typeof potentialAnagrams === 'string') {
+      potentialAnagrams = [].slice.apply(arguments);
     }
-    return potential_anagrams.filter(is_an_anagram);
+    return potentialAnagrams.filter(isAnAnagram);
   }
 
   return {
-    matches: find_matches_among
+    matches: findMatchesAmong
   };
 }
 
