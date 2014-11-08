@@ -65,7 +65,7 @@ describe('Anagram', function() {
     expect(matches).toEqual([]);
   });
 
-  xit("matches() accepts string arguments",function() {
+  it("matches() accepts string arguments",function() {
     var subject = anagram("ant");
     var matches = subject.matches("stand", "tan", "at");
 

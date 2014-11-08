@@ -13,6 +13,9 @@ function Anagram(starting_word) {
     return (starting_word !== other_word && alphabetized_starting_word === alphabetize(other_word));
   }
   function find_matches_among(potential_anagrams) {
+    if (typeof potential_anagrams === 'string') {
+      potential_anagrams = [].slice.apply(arguments);
+    }
     return potential_anagrams.filter(is_an_anagram);
   }
 
