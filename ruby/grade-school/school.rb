@@ -4,16 +4,17 @@ class School
     @roster = Roster.new
   end
 
-  def add(name, grade)
-    @roster.add(name, grade)
+  def add(name, n)
+    @roster.add name, n
+    nil
   end
 
   def grade(n)
-    @roster.find_grade(n).freeze
+    @roster.find_grade n
   end
 
   def to_hash
-    @roster.to_hash.freeze
+    @roster.to_hash
   end
 
 end
@@ -21,26 +22,26 @@ end
 class Roster
 
   def initialize
-    @db = {}
+    @db = Hash.new
   end
 
-  def add(name, grade)
-    find_grade(grade).push name
-    find_grade(grade).sort! # keeps names sorted wthin grades
-    @db[grade]
+  def add(name, n)
+    find_or_create_grade(n).push(name).sort!
+    nil
   end
 
-  def find_grade(num)
-    @db[num] ||= []
+  def find_grade(n)
+    find_or_create_grade(n).freeze
   end
 
   def to_hash
-    # generates a new hash with grade numbers in order (as well as names sorted within grades)
-    #@db.keys.sort.each_with_object({}) { |grade, hash|
-      #hash[grade] = @db[grade]
-    #}
-    puts "CALLING TO HASH"
-    Hash[@db.sort].freeze
+    Hash[@db.sort].each_value{ |grade| grade.freeze }
+  end
+
+  private
+
+  def find_or_create_grade(n)
+    @db[n] ||= []
   end
 
 end
