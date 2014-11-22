@@ -38,9 +38,7 @@ class Roster
     Hash[@db.sort].each_value{ |grade| grade.freeze }
   end
 
-  private
-
-  def find_or_create_grade(n)
+  private def find_or_create_grade(n)
     @db[n] ||= []
   end
 
