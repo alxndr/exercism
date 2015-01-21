@@ -19,18 +19,20 @@ function capitalize(word) {
 }
 
 function converterFor(planet) {
-  return function converter() {
+  return function() {
     return roundTo(-2, this.seconds / ORBITAL_PERIODS[planet]);
   };
 }
 
 function SpaceAgeConverter(inputSeconds) {
-  var self = this;
+  var api = {
+    seconds : inputSeconds
+  };
 
-  this.seconds = inputSeconds;
-  Object.keys(ORBITAL_PERIODS).forEach(function(planet) {
-    self['on' + capitalize(planet)] = converterFor(planet);
-  });
+  return Object.keys(ORBITAL_PERIODS).reduce(function(newApi, planet) {
+    newApi['on' + capitalize(planet)] = converterFor(planet);
+    return newApi;
+  }, api);
 }
 
 if (module) {
