@@ -1,3 +1,16 @@
+function SpaceAgeConverter(inputSeconds) {
+  var api = {
+    seconds : inputSeconds
+  };
+
+  return Object.keys(ORBITAL_PERIODS).reduce(function(newApi, planet) {
+    var methodName = 'on' + capitalize(planet);
+    newApi[methodName] = converterFor(planet);
+
+    return newApi;
+  }, api);
+}
+
 var EARTH_YR_IN_SEC = 31557600;
 var ORBITAL_PERIODS = {
   mercury: EARTH_YR_IN_SEC * 0.2408467,
@@ -22,19 +35,6 @@ function converterFor(planet) {
   return function() {
     return roundTo(-2, this.seconds / ORBITAL_PERIODS[planet]);
   };
-}
-
-function SpaceAgeConverter(inputSeconds) {
-  var api = {
-    seconds : inputSeconds
-  };
-
-  return Object.keys(ORBITAL_PERIODS).reduce(function(newApi, planet) {
-    var methodName = 'on' + capitalize(planet);
-    newApi[methodName] = converterFor(planet);
-
-    return newApi;
-  }, api);
 }
 
 if (module) {
