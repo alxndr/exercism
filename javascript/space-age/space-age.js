@@ -16,7 +16,7 @@ function SpaceAgeConverter(inputSeconds) {
     var planetsOrbitalPeriod = ORBITAL_PERIODS[planet];
     return function() {
       var theAnswer = this.seconds / planetsOrbitalPeriod;
-      return NumberHelper.roundTo(-2, theAnswer);
+      return NumberHelper.round(theAnswer).toDecimalPlaces(2);
     };
   }
 
@@ -33,9 +33,15 @@ function SpaceAgeConverter(inputSeconds) {
 }
 
 var NumberHelper = {
-  roundTo: function(exponent, number) {
-    // negative exponent rounds to decimal places
-    return +(Math.round(number + 'e' + -exponent) + 'e' + exponent);
+  roundTo: function(places, number) {
+    return +(Math.round(number + 'e' + places) + 'e' + (places * -1));
+  },
+  round: function(number) {
+    return {
+      toDecimalPlaces: function(decimalPlaces) {
+        return NumberHelper.roundTo(decimalPlaces, number);
+      }
+    };
   }
 };
 var StringHelper = {
