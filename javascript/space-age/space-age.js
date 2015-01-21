@@ -10,24 +10,26 @@ var ORBITAL_PERIODS = {
   neptune: EARTH_YR_IN_SEC * 164.79132
 };
 
-function round_to(exp, num) { // negative exp to round to decimal places
+function roundTo(exp, num) { // negative exp to round to decimal places
   return +(Math.round(num + 'e' + -exp) + 'e' + exp);
 }
+
 function capitalize(word) {
   return word[0].toUpperCase() + word.slice(1);
 }
-function converter_for(planet) {
+
+function converterFor(planet) {
   return function converter() {
-    return round_to(-2, this.seconds / ORBITAL_PERIODS[planet]); // did not expect `this` to be the SpaceAgeConverter instance
+    return roundTo(-2, this.seconds / ORBITAL_PERIODS[planet]);
   };
 }
 
-function SpaceAgeConverter(input_seconds) {
+function SpaceAgeConverter(inputSeconds) {
   var self = this;
 
-  this.seconds = input_seconds;
-  Object.keys(ORBITAL_PERIODS).forEach(function define_conversion_method(planet) {
-    self['on' + capitalize(planet)] = converter_for(planet);
+  this.seconds = inputSeconds;
+  Object.keys(ORBITAL_PERIODS).forEach(function(planet) {
+    self['on' + capitalize(planet)] = converterFor(planet);
   });
 }
 
