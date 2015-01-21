@@ -30,7 +30,9 @@ function SpaceAgeConverter(inputSeconds) {
   };
 
   return Object.keys(ORBITAL_PERIODS).reduce(function(newApi, planet) {
-    newApi['on' + capitalize(planet)] = converterFor(planet);
+    var methodName = 'on' + capitalize(planet);
+    newApi[methodName] = converterFor(planet);
+
     return newApi;
   }, api);
 }
