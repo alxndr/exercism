@@ -1,25 +1,17 @@
+DNA_TO_RNA = {
+  "C" => "G",
+  "G" => "C",
+  "T" => "A",
+  "A" => "U",
+}
+
 class Complement
-
-  MAPPINGS = {
-    DNA: {
-      "C" => "G",
-      "G" => "C",
-      "T" => "A",
-      "A" => "U",
-    },
-    RNA: {
-      "C" => "G",
-      "G" => "C",
-      "A" => "T",
-      "U" => "A",
-    },
-  }
-
-  MAPPINGS.keys.each do |molecule|
-    molecule_mapping = MAPPINGS[molecule]
-    self.define_singleton_method("of_#{molecule.downcase}") do |nbases|
+  {
+    DNA: DNA_TO_RNA,
+    RNA: DNA_TO_RNA.invert,
+  }.each do |molecule_symbol, molecule_mapping|
+    self.define_singleton_method("of_#{molecule_symbol.downcase}") do |nbases|
       nbases.each_char.map { |nbase| molecule_mapping[nbase] }.join
     end
   end
-
 end
