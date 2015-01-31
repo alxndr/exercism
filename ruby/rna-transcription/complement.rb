@@ -10,8 +10,8 @@ class Complement
     RNA: {
       "C" => "G",
       "G" => "C",
-      "U" => "A",
       "A" => "T",
+      "U" => "A",
     },
   }
 
