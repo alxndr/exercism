@@ -18,7 +18,7 @@ class Complement
   MAPPINGS.keys.each do |molecule|
     molecule_mapping = MAPPINGS[molecule]
     self.define_singleton_method("of_#{molecule.downcase}") do |nbases|
-      nbases.chars.map { |nbase| molecule_mapping[nbase] }.join
+      nbases.each_char.map { |nbase| molecule_mapping[nbase] }.join
     end
   end
 
