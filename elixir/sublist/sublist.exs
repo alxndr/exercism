@@ -11,25 +11,25 @@ defmodule Sublist do
   def compare(l, l), do: :equal
   def compare([], _), do: :sublist
   def compare(first, second) when length(first) < length(second) do
-    if sublist?(first, second), do: :sublist, else: :unequal
+    if first |> sublist_of?(second), do: :sublist, else: :unequal
   end
   def compare(first, second) when length(first) > length(second) do
-    if sublist?(second, first), do: :superlist, else: :unequal
+    if second |> sublist_of?(first), do: :superlist#, else: :unequal # TODO o_O
   end
   def compare(_, _), do: :unequal
 
-  defp sublist?([], _), do: true
-  defp sublist?(first, second) when length(first) > length(second), do: false
-  defp sublist?(first, second=[_|second_tail]) do
-    if _sublist?(first, second) do
+  defp sublist_of?([], _), do: true
+  defp sublist_of?(first, second) when length(first) > length(second), do: false
+  defp sublist_of?(first, second=[_|second_tail]) do
+    if at_head_of?(first, second) do
       true
     else
-      sublist?(first, second_tail)
+      sublist_of?(first, second_tail)
     end
   end
 
-  defp _sublist?([], _), do: true
-  defp _sublist?([a|first_tail], [a|second_tail]), do: _sublist?(first_tail, second_tail)
-  defp _sublist?(_, _), do: false
+  defp at_head_of?([], _), do: true
+  defp at_head_of?([a|first_tail], [a|second_tail]), do: first_tail |> at_head_of?(second_tail)
+  defp at_head_of?(_, _), do: false
 
 end
