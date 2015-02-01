@@ -63,4 +63,15 @@ defmodule AnagramTest do
     matches = Anagram.match "mass", ["last"]
     assert matches == []
   end
+
+  test "German" do
+    matches = Anagram.match "bäcker", ["abreck", "breck", "backer", "rebäck"]
+    assert matches == ["rebäck"]
+  end
+
+  test "Chinese" do
+    matches = Anagram.match "饒恕", ["恕饒", "帮忙", "饒恕"]
+    assert matches == ["恕饒"]
+  end
+
 end

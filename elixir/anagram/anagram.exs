@@ -20,7 +20,7 @@ defmodule Anagram do
   @spec alphabetize(String.t) :: String.t
   defp alphabetize(word) do
     word
-    |> String.to_char_list
+    |> String.graphemes
     |> Enum.sort
   end
 
