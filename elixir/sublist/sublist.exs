@@ -7,6 +7,7 @@ defmodule Sublist do
   iex> SubList.compare([], [])
   :equal
   """
+  @spec compare([any], [any]) :: atom
   def compare(l, l), do: :equal
   def compare([], _), do: :sublist
   def compare(first, second) when length(first) < length(second) do
