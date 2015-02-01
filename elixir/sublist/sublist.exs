@@ -8,17 +8,17 @@ defmodule Sublist do
   :equal
   """
   @spec compare([any], [any]) :: atom
-  def compare(l, l), do: :equal
-  def compare([], _), do: :sublist
-  def compare(first, second) when length(first) < length(second) do
-    if first |> sublist_of?(second), do: :sublist, else: :unequal
+  def compare(first, second) do
+    cond do
+      first === second -> :equal
+      sublist_of?(first, second) -> :sublist
+      sublist_of?(second, first) -> :superlist
+      true -> :unequal
+    end
   end
-  def compare(first, second) when length(first) > length(second) do
-    if second |> sublist_of?(first), do: :superlist#, else: :unequal # TODO o_O
-  end
-  def compare(_, _), do: :unequal
 
   defp sublist_of?([], _), do: true
+  defp sublist_of?(_, []), do: false
   defp sublist_of?(first, second) when length(first) > length(second), do: false
   defp sublist_of?(first, second=[_|second_tail]) do
     if at_head_of?(first, second) do
