@@ -4,7 +4,7 @@ else
   Code.load_file("sublist.exs")
 end
 
-ExUnit.start
+ExUnit.start trace: true
 
 defmodule SublistTest do
   use ExUnit.Case, async: true
