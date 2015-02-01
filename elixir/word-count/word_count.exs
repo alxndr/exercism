@@ -6,6 +6,7 @@ defmodule Words do
   @spec count(String.t) :: Number
   def count(text) do
     text
+    |> String.downcase
     |> split_words
     |> count_words
   end
@@ -21,7 +22,7 @@ defmodule Words do
 
   @spec split_words(String.t) :: [String.t]
   defp split_words(text) do
-    Regex.scan ~r/[\p{L}0-9-]+/i, String.downcase(text)
+    Regex.scan ~r/(*UTF)[\p{L}0-9-]+/i, text
   end
 
 end
