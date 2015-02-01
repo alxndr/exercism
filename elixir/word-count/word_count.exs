@@ -10,14 +10,16 @@ defmodule Words do
     |> count_words
   end
 
-  defp count_words(list) do
-    Enum.reduce list, %{}, &reducer/2
+  @spec count_words(List) :: Number
+  defp count_words(word_list) do
+    Enum.reduce word_list, %{}, &reducer/2
   end
 
   defp reducer([word], census) do
     Dict.update census, word, 1, &(&1 + 1)
   end
 
+  @spec split_words(String.t) :: [String.t]
   defp split_words(text) do
     Regex.scan ~r/[\p{L}0-9-]+/i, String.downcase(text)
   end
