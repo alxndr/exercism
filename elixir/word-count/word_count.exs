@@ -1,5 +1,9 @@
 defmodule Words do
 
+  @doc """
+  Counts the number of occurrances of unique whitespace-split words and numbers in a string.
+  """
+  @spec count(String.t) :: Number
   def count(text) do
     text
     |> split_words
@@ -10,12 +14,8 @@ defmodule Words do
     Enum.reduce list, %{}, &reducer/2
   end
 
-  defp increment(number) do
-    1 + number
-  end
-
-  defp reducer([word], acc) do
-    Dict.update(acc, word, 1, &increment/1)
+  defp reducer([word], census) do
+    Dict.update census, word, 1, &(&1 + 1)
   end
 
   defp split_words(text) do
