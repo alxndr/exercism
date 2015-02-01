@@ -9,12 +9,9 @@ defmodule Sublist do
   """
   def compare(first, second) do
     case { length(first), length(second) } do
-      { first_length, second_length } when first_length < second_length ->
-        if sublist?(first, second, first_length, second_length), do: :sublist, else: :unequal
-      { first_length, second_length } when first_length > second_length ->
-        if sublist?(second, first, second_length, first_length), do: :superlist, else: :unequal
-      _ ->
-        if first == second, do: :equal, else: :unequal
+      { first_length, second_length } when first_length < second_length -> if sublist?(first, second, first_length, second_length), do: :sublist, else: :unequal
+      { first_length, second_length } when first_length > second_length -> if sublist?(second, first, second_length, first_length), do: :superlist, else: :unequal
+      _ -> if first == second, do: :equal, else: :unequal
     end
   end
 
