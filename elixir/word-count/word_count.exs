@@ -1,7 +1,7 @@
 defmodule Words do
 
   @doc """
-  Counts the number of occurrances of unique whitespace-split words and numbers in a string.
+  Counts the number of occurrences of unique whitespace-split words and numbers in a string.
   """
   @spec count(String.t) :: Number
   def count(text) do
