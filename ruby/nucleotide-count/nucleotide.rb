@@ -12,7 +12,7 @@ class Nucleotide
     @census[nucleotide] or raise ArgumentError
   end
 
-  def nucleotide_counts
+  def histogram
     @census
   end
 

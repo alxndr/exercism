@@ -27,13 +27,11 @@ class NucleotideTest < MiniTest::Unit::TestCase
   end
 
   def test_repetitive_sequence_has_only_guanosine
-    skip
     expected = { 'A' => 0, 'T' => 0, 'C' => 0, 'G' => 8 }
     assert_equal expected, Nucleotide.from_dna('GGGGGGGG').histogram
   end
 
   def test_counts_all_nucleotides
-    skip
     s = 'AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC'
     dna = Nucleotide.from_dna(s)
     expected = { 'A' => 20, 'T' => 21, 'G' => 17, 'C' => 12 }
@@ -41,7 +39,6 @@ class NucleotideTest < MiniTest::Unit::TestCase
   end
 
   def test_validates_dna
-    skip
     assert_raises ArgumentError do
       Nucleotide.from_dna('JOHNNYAPPLESEED')
     end
