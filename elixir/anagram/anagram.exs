@@ -41,6 +41,9 @@ defmodule Anagram do
   def match(word, candidates) do
     word = Word.create(word)
     candidates
-    |> Enum.filter(fn (candidate) -> Word.anagram?(word, Word.create(candidate)) end)
+    |> Enum.filter(fn (candidate) ->
+      word
+      |> Word.anagram?(Word.create(candidate))
+    end)
   end
 end
