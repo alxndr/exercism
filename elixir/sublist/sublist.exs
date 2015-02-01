@@ -3,17 +3,18 @@ defmodule Sublist do
   @doc """
   Returns whether the first list is a sublist or a superlist of the second list
   and if not whether it is equal or unequal to the second list.
-
-  iex> SubList.compare([], [])
-  :equal
   """
   @spec compare([any], [any]) :: atom
   def compare(first, second) do
     cond do
-      first === second -> :equal
-      sublist_of?(first, second) -> :sublist
-      sublist_of?(second, first) -> :superlist
-      true -> :unequal
+      first === second ->
+        :equal
+      sublist_of?(first, second) ->
+        :sublist
+      sublist_of?(second, first) ->
+        :superlist
+      true ->
+        :unequal
     end
   end
 
