@@ -15,8 +15,8 @@ defmodule Sublist do
     end
   end
 
-  defp sublist?(_, _, first_length, second_length) when first_length > second_length, do: false
   defp sublist?([], _, _, _), do: true
+  defp sublist?(_, _, first_length, second_length) when first_length > second_length, do: false
   defp sublist?(first, second=[_|second_tail], first_length, second_length) do
     if _sublist?(first, second), do: true, else: sublist?(first, second_tail, first_length, second_length - 1)
   end
