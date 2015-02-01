@@ -1,4 +1,4 @@
-class DNA
+class Nucleotide
 
   def initialize(sequence)
     sequence_census = { 'A' => 0, 'T' => 0, 'C' => 0, 'G' => 0 }
@@ -14,6 +14,10 @@ class DNA
 
   def nucleotide_counts
     @census
+  end
+
+  def self.from_dna(dna_string)
+    self.new dna_string
   end
 
 end
