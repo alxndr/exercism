@@ -7,27 +7,25 @@ defmodule Sublist do
   iex> SubList.compare([], [])
   :equal
   """
-  def compare(a, a),   do: :equal
-  def compare([], _b), do: :sublist
-  def compare(_a, []), do: :superlist
-  def compare([a|[]], [a|[]]), do: :equal
-  def compare([_|[]], [_|[]]), do: :unequal
-  #def compare([h|first_t], [h|second_t]) do
-    #compare first_t, second_t
-  #end
-  def compare([h|first_t], [_|second_t]) do
-    IO.puts "comparing..."
-    IO.inspect [h|first_t]
-    IO.inspect second_t
-    second_tail_comparison = compare [h|first_t], second_t
-    IO.inspect second_tail_comparison
-    case second_tail_comparison do
-      :equal     -> :sublist
-      :superlist -> :unequal
-      :unequal   -> :superlist
-      :sublist   -> :foo
-      #_          -> second_tail_comparison
+  def compare(first, second) do
+    case { length(first), length(second) } do
+      { first_length, second_length } when first_length < second_length ->
+        if sublist?(first, second, first_length, second_length), do: :sublist, else: :unequal
+      { first_length, second_length } when first_length > second_length ->
+        if sublist?(second, first, second_length, first_length), do: :superlist, else: :unequal
+      _ ->
+        if first == second, do: :equal, else: :unequal
     end
   end
+
+  defp sublist?(_, _, first_length, second_length) when first_length > second_length, do: false
+  defp sublist?([], _, _, _), do: true
+  defp sublist?(first, second=[_|second_tail], first_length, second_length) do
+    if _sublist?(first, second), do: true, else: sublist?(first, second_tail, first_length, second_length - 1)
+  end
+
+  defp _sublist?([], _), do: true
+  defp _sublist?([a|first_tail], [a|second_tail]), do: _sublist?(first_tail, second_tail)
+  defp _sublist?(_, _), do: false
 
 end
