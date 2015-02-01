@@ -4,7 +4,7 @@ else
   Code.load_file("point_mutations.exs")
 end
 
-ExUnit.start
+ExUnit.start trace: true
 
 defmodule DNATest do
   use ExUnit.Case, async: true
@@ -29,4 +29,17 @@ defmodule DNATest do
     assert DNA.hamming_distance('AAAC', 'TAGGGGAGGCTAGCGGTAGGAC') == nil
     assert DNA.hamming_distance('GACTACGGACAGGACACC', 'GACATCGC') == nil
   end
+
+  test "hamming really big identical strands" do
+    assert DNA.hamming_distance(1..1_000_000, 1..1_000_000) == 0
+  end
+
+  test "hamming really big half-identical strands" do
+    assert DNA.hamming_distance(Stream.concat(1..500_000, 1..500_000), 1..1_000_000) == 500_000
+  end
+
+  test "hamming really big non-identical strands" do
+    assert DNA.hamming_distance(2..1_000_001, 1..1_000_000) == 1_000_000
+  end
+
 end

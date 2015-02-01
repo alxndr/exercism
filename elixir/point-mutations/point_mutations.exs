@@ -17,7 +17,7 @@ defmodule DNA do
   end
 
   @spec different_chars?({char, char}) :: boolean
-  defp different_chars?({ char, char }), do: false
-  defp different_chars?({ _char1, _char2 }), do: true
+  defp different_chars?({char, char}), do: false
+  defp different_chars?({_char1, _char2}), do: true
 
 end
