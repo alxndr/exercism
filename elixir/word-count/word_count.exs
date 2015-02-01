@@ -19,7 +19,7 @@ defmodule Words do
   end
 
   defp split_words(text) do
-    Regex.scan ~r/[\p{L}0-9]+/i, String.downcase(text)
+    Regex.scan ~r/[\p{L}0-9-]+/i, String.downcase(text)
   end
 
 end
