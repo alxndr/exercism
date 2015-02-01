@@ -1,5 +1,31 @@
 defmodule Word do
+  @type word :: %Word{original: String.t, downcased: String.t, alphabetized: String.t}
   defstruct original: nil, downcased: nil, alphabetized: nil
+
+  @spec anagram?(Struct.word, Struct.word) :: boolean
+  def anagram?(word, candidate) do
+    word.alphabetized === candidate.alphabetized && candidate.downcased !== word.downcased
+  end
+
+  @doc """
+  Construct a %Word{} from a bare string.
+  """
+  @spec create(String.t) :: Word
+  def create(word) do
+    downcased = word
+                |> String.downcase
+    alphabetized = downcased
+                    |> alphabetize
+    %Word{original: word, downcased: downcased, alphabetized: alphabetized }
+  end
+
+  @spec alphabetize(String.t) :: String.t
+  defp alphabetize(word) do
+    word
+    |> String.graphemes
+    |> Enum.sort
+  end
+
 end
 
 defmodule Anagram do
@@ -8,27 +34,10 @@ defmodule Anagram do
   Returns all candidates that are anagrams of, but not equal to, 'base'.
   """
   @spec match(String.t, [String.t]) :: [String.t]
-  def match(base, candidates) do
-    base_downcased = base
-                      |> String.downcase
-    base_alphabetized = base_downcased
-                        |> alphabetize
-    word = %Word{original: base, downcased: base_downcased, alphabetized: base_alphabetized }
+  def match(word, candidates) do
+    word = Word.create(word)
     candidates
-    |> Enum.filter(fn (candidate) -> anagram?(word, candidate) end)
-  end
-
-  defp anagram?(word, candidate) do
-    candidate_downcased = candidate
-                          |> String.downcase
-    word.alphabetized == alphabetize(candidate_downcased) && candidate_downcased != word.downcased
-  end
-
-  @spec alphabetize(String.t) :: String.t
-  defp alphabetize(word) do
-    word
-    |> String.graphemes
-    |> Enum.sort
+    |> Enum.filter(fn (candidate) -> Word.anagram?(word, Word.create(candidate)) end)
   end
 
 end

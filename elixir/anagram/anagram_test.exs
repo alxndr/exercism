@@ -74,4 +74,9 @@ defmodule AnagramTest do
     assert matches == ["恕饒"]
   end
 
+  test "emoji" do
+    matches = Anagram.match "💥😎👌", ["💥💥💥", "😎👌💥", "👌😎👌"]
+    assert matches == ["😎👌💥"]
+  end
+
 end
