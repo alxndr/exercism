@@ -13,12 +13,8 @@ defmodule DNA do
   def hamming_distance(strand1, strand2) do
     strand1
     |> Stream.zip(strand2)
-    |> Stream.reject(&identical_chars?/1)
+    |> Stream.reject(fn {nucleotide1, nucleotide2} -> nucleotide1 == nucleotide2 end)
     |> Enum.count
   end
-
-  @spec identical_chars?({char, char}) :: boolean
-  defp identical_chars?({char1, char2}) when char1 === char2, do: true
-  defp identical_chars?({_, _}), do: false
 
 end
