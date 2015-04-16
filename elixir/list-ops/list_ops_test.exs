@@ -23,12 +23,20 @@ defmodule ListOpsTest do
     assert L.count([1,3,5,7]) == 4
   end
 
+  test "count of big list" do
+    assert L.count(Enum.to_list(1..1_000)) == 1_000
+  end
+
   test "reverse of empty list" do
     assert L.reverse([]) == []
   end
 
   test "reverse of normal list" do
     assert L.reverse([1,3,5,7]) == [7,5,3,1]
+  end
+
+  test "reverse of big list" do
+    assert L.reverse(Enum.to_list(1..1_000)) == Enum.to_list(1_000..1)
   end
 
   test "map of empty list" do
@@ -39,12 +47,22 @@ defmodule ListOpsTest do
     assert L.map([1,3,5,7], &(&1+1)) == [2,4,6,8]
   end
 
+  test "map of big list" do
+    assert L.map(Enum.to_list(1..1_000), &(&1+1)) ==
+      Enum.to_list(2..1_001)
+  end
+
   test "filter of empty list" do
     assert L.filter([], &odd?/1) == []
   end
 
   test "filter of normal list" do
     assert L.filter([1,2,3,4], &odd?/1) == [1,3]
+  end
+
+  test "filter of big list" do
+    assert L.filter(Enum.to_list(1..1_000), &odd?/1) ==
+      Enum.map(1..500, &(&1*2-1))
   end
 
   test "reduce of empty list" do
@@ -57,6 +75,11 @@ defmodule ListOpsTest do
 
   test "reduce with non-commutative function" do
     assert L.reduce([1,2,3,4], 10, fn x, acc -> acc - x end) == 0
+  end
+
+  test "reduce of big list" do
+    assert L.reduce(Enum.to_list(1..1_000), 0, &(&1+&2)) ==
+      Enum.reduce(1..1_000, 0, &(&1+&2))
   end
 
   test "append of empty lists" do
@@ -75,8 +98,23 @@ defmodule ListOpsTest do
     assert L.append([1,2,3], [4,5]) == [1,2,3,4,5]
   end
 
+  test "append of big lists" do
+    assert L.append(Enum.to_list(1..1_000), Enum.to_list(1_001..2_000)) ==
+      Enum.to_list(1..2_000)
+  end
+
   test "concat of empty list of lists" do
     assert L.concat([]) == []
+  end
+
+  test "concat of big list of small lists" do
+    assert L.concat(Enum.map(1..1_000, &[&1])) ==
+      Enum.to_list(1..1_000)
+  end
+
+  test "concat of small list of big lists" do
+    assert L.concat(Enum.map(0..9, &Enum.to_list((&1*100+1)..((&1+1)*100)))) ==
+      Enum.to_list(1..1_000)
   end
 
   test "concat of normal list of lists" do
