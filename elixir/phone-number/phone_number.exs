@@ -18,7 +18,26 @@ defmodule Phone do
   """
   @spec number(String.t) :: String.t
   def number(raw) do
+    raw
+    |> sanitize_number
+    |> maybe_trim
+  end
 
+  defp sanitize_number(numerical_input) do
+    numerical_input
+    |> String.replace(~r{\D}, "")
+  end
+
+  defp maybe_trim(numerical_string) do
+    if String.length(numerical_string) == 11 do
+      if remainder = Regex.named_captures(~r/^1(?<rest>\d{10}+)$/, numerical_string)["rest"] do
+        remainder
+      else
+        nil
+      end
+    else
+      numerical_string
+    end
   end
 
   @doc """
@@ -39,8 +58,7 @@ defmodule Phone do
   "000"
   """
   @spec area_code(String.t) :: String.t
-  def area_code(raw) do
-  
+  def area_code(_) do
   end
 
   @doc """
