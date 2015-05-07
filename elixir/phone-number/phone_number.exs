@@ -44,7 +44,7 @@ defmodule Phone do
   def area_code(raw) do
     raw
     |> cleanup
-    |> String.slice 0, 3
+    |> String.slice(0, 3)
   end
 
   @doc """
@@ -68,11 +68,8 @@ defmodule Phone do
   def pretty(raw) do
     raw
     |> cleanup
-    |> (fn (digits) ->
-      { area_code, other_stuff } = String.split_at(digits, 3)
-      { first_three, last_four } = String.split_at(other_stuff, 3)
-      "(#{area_code}) #{first_three}-#{last_four}"
-    end).()
+    |> extract_phone_number_pieces
+    |> format_phone_number_pieces
   end
 
   @spec cleanup(String.t) :: String.t
@@ -82,9 +79,22 @@ defmodule Phone do
     |> trim_extra_leading_one
   end
 
+  @spec extract_phone_number_pieces(String.t) :: {String.t, String.t, String.t}
+  defp extract_phone_number_pieces(phone_number) do
+    { area_code, other_stuff } = String.split_at(phone_number, 3)
+    { first_three, last_four } = String.split_at(other_stuff, 3)
+    { area_code, first_three, last_four }
+  end
+
+  @spec format_phone_number_pieces({any, any, any}) :: String.t
+  defp format_phone_number_pieces({a, b, c}) do
+    "(#{a}) #{b}-#{c}"
+  end
+
   @spec has_extra_leading_one?(String.t) :: boolean
   defp has_extra_leading_one?(numerical_string) do
-    String.length(numerical_string) == 11 && String.starts_with?(numerical_string, "1")
+    String.length(numerical_string) == 11 &&
+    String.starts_with?(numerical_string, "1")
   end
 
   @spec normalize_to_zeroes(String.t) :: String.t
