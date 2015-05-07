@@ -29,14 +29,13 @@ defmodule Phone do
   end
 
   defp maybe_trim(numerical_string) do
-    if String.length(numerical_string) == 11 do
-      if remainder = Regex.named_captures(~r/^1(?<rest>\d{10}+)$/, numerical_string)["rest"] do
-        remainder
-      else
-        nil
-      end
-    else
-      numerical_string
+    cond do
+      matches = Regex.named_captures(~r/^1(?<remainder>\d{10}+)$/, numerical_string) ->
+        matches["remainder"]
+      Regex.named_captures(~r/^1(?<remainder>\d{9}+)$/, numerical_string) ->
+        numerical_string
+      true ->
+        "0000000000"
     end
   end
 

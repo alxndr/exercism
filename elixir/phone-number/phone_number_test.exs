@@ -22,11 +22,11 @@ defmodule PhoneTest do
   end
 
   test "invalid when 11 digits" do
-    # assert Phone.number("21234567890") == "0000000000"
+    assert Phone.number("21234567890") == "0000000000"
   end
 
   test "invalid when 9 digits" do
-    # assert Phone.number("123456789") == "0000000000"
+    assert Phone.number("123456789") == "0000000000"
   end
 
   test "area code" do
