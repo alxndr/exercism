@@ -1,4 +1,7 @@
 defmodule Phone do
+
+  @regex_phone_number_pieces ~r/^(?<area_code>\d{3})(?<exchange_code>\d{3})(?<line_code>\d{4})$/
+
   @doc """
   Remove formatting from a phone number.
 
@@ -42,9 +45,11 @@ defmodule Phone do
   """
   @spec area_code(String.t) :: String.t
   def area_code(raw) do
-    raw
-    |> cleanup
-    |> String.slice(0, 3)
+    {area_code, _, _} =
+      raw
+      |> cleanup
+      |> extract_phone_number_pieces
+    area_code
   end
 
   @doc """
@@ -66,10 +71,11 @@ defmodule Phone do
   """
   @spec pretty(String.t) :: String.t
   def pretty(raw) do
-    raw
-    |> cleanup
-    |> extract_phone_number_pieces
-    |> format_phone_number_pieces
+    {area_code, exchange_code, line_code} =
+      raw
+      |> cleanup
+      |> extract_phone_number_pieces
+    "(#{area_code}) #{exchange_code}-#{line_code}"
   end
 
   @spec cleanup(String.t) :: String.t
@@ -81,14 +87,8 @@ defmodule Phone do
 
   @spec extract_phone_number_pieces(String.t) :: {String.t, String.t, String.t}
   defp extract_phone_number_pieces(phone_number) do
-    { area_code, other_stuff } = String.split_at(phone_number, 3)
-    { first_three, last_four } = String.split_at(other_stuff, 3)
-    { area_code, first_three, last_four }
-  end
-
-  @spec format_phone_number_pieces({any, any, any}) :: String.t
-  defp format_phone_number_pieces({a, b, c}) do
-    "(#{a}) #{b}-#{c}"
+    pieces = Regex.named_captures(@regex_phone_number_pieces, phone_number)
+    { pieces["area_code"], pieces["exchange_code"], pieces["line_code"] }
   end
 
   @spec has_extra_leading_one?(String.t) :: boolean
