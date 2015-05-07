@@ -19,8 +19,8 @@ defmodule Phone do
   @spec number(String.t) :: String.t
   def number(raw) do
     raw
-    |> sanitize_number
-    |> maybe_trim
+    |> cleanup
+    |> normalize_to_zeroes
   end
 
   @doc """
@@ -82,22 +82,19 @@ defmodule Phone do
     |> trim_extra_leading_one
   end
 
+  @spec normalize_to_zeroes(String.t) :: String.t
+  defp normalize_to_zeroes(numerical_string) do
+    if String.length(numerical_string) == 10 do
+      numerical_string
+    else
+      "0000000000"
+    end
+  end
+
   @spec sanitize_number(String.t) :: String.t
   defp sanitize_number(numerical_input) do
     numerical_input
     |> String.replace(~r{\D}, "")
-  end
-
-  @spec maybe_trim(String.t) :: String.t
-  defp maybe_trim(numerical_string) do
-    cond do
-      matches = Regex.named_captures(~r/^1(?<remainder>\d{10}+)$/, numerical_string) ->
-        matches["remainder"]
-      Regex.named_captures(~r/^1(?<remainder>\d{9}+)$/, numerical_string) ->
-        numerical_string
-      true ->
-        "0000000000"
-    end
   end
 
   @spec trim_extra_leading_one(String.t) :: String.t
