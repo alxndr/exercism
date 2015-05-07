@@ -10,7 +10,12 @@ defmodule School do
   """
   @spec add(Dict.t, String.t, pos_integer) :: Dict.t
   def add(db, name, grade) do
-
+    db
+    |> Dict.update(grade,
+                   [name],
+                   fn (students_in_grade) ->
+                     [name | students_in_grade]
+                   end)
   end
 
   @doc """
@@ -18,14 +23,19 @@ defmodule School do
   """
   @spec grade(Dict.t, pos_integer) :: [String]
   def grade(db, grade) do
-
+    db
+    |> Dict.fetch(grade)
+    |> case do
+        {:ok, names} ->
+          names
+        :error ->
+          []
+      end
   end
 
   @doc """
   Sorts the school by grade and name.
   """
   @spec sort(Dict) :: Dict.t
-  def sort(db) do
-
-  end
+  def sort(db), do: db # already sorted...?
 end
