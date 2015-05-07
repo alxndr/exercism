@@ -23,11 +23,13 @@ defmodule Phone do
     |> maybe_trim
   end
 
+  @spec sanitize_number(String.t) :: String.t
   defp sanitize_number(numerical_input) do
     numerical_input
     |> String.replace(~r{\D}, "")
   end
 
+  @spec maybe_trim(String.t) :: String.t
   defp maybe_trim(numerical_string) do
     cond do
       matches = Regex.named_captures(~r/^1(?<remainder>\d{10}+)$/, numerical_string) ->
@@ -57,7 +59,25 @@ defmodule Phone do
   "000"
   """
   @spec area_code(String.t) :: String.t
-  def area_code(_) do
+  def area_code(raw) do
+    raw
+    |> sanitize_number
+    |> trim_extra_leading_one
+    |> String.slice 0, 3
+  end
+
+  @spec trim_extra_leading_one(String.t) :: String.t
+  defp trim_extra_leading_one(numerical_string) do
+    if has_extra_leading_one?(numerical_string) do
+      Regex.named_captures(~r/^1(?<remainder>\d{10}+)$/, numerical_string)["remainder"]
+    else
+      numerical_string
+    end
+  end
+
+  @spec has_extra_leading_one?(String.t) :: boolean
+  defp has_extra_leading_one?(numerical_string) do
+    String.length(numerical_string) == 11 && String.starts_with?(numerical_string, "1")
   end
 
   @doc """
@@ -79,6 +99,13 @@ defmodule Phone do
   """
   @spec pretty(String.t) :: String.t
   def pretty(raw) do
-  
+    raw
+    |> sanitize_number
+    |> trim_extra_leading_one
+    |> (fn (digits) ->
+      { area_code, other_stuff } = String.split_at(digits, 3)
+      { first_three, last_four } = String.split_at(other_stuff, 3)
+      "(#{area_code}) #{first_three}-#{last_four}"
+    end).()
   end
 end

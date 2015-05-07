@@ -30,18 +30,18 @@ defmodule PhoneTest do
   end
 
   test "area code" do
-    # assert Phone.area_code("1234567890") == "123"
+    assert Phone.area_code("1234567890") == "123"
   end
 
   test "area code with full US phone number" do
-    # assert Phone.area_code("11234567890") == "123"
+    assert Phone.area_code("11234567890") == "123"
   end
 
   test "pretty print" do
-    # assert Phone.pretty("1234567890") == "(123) 456-7890"
+    assert Phone.pretty("1234567890") == "(123) 456-7890"
   end
 
   test "pretty print with full US phone number" do
-    # assert Phone.pretty("11234567890") == "(123) 456-7890"
+    assert Phone.pretty("11234567890") == "(123) 456-7890"
   end
 end
