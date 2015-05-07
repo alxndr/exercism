@@ -82,6 +82,11 @@ defmodule Phone do
     |> trim_extra_leading_one
   end
 
+  @spec has_extra_leading_one?(String.t) :: boolean
+  defp has_extra_leading_one?(numerical_string) do
+    String.length(numerical_string) == 11 && String.starts_with?(numerical_string, "1")
+  end
+
   @spec normalize_to_zeroes(String.t) :: String.t
   defp normalize_to_zeroes(numerical_string) do
     if String.length(numerical_string) == 10 do
@@ -104,11 +109,6 @@ defmodule Phone do
     else
       numerical_string
     end
-  end
-
-  @spec has_extra_leading_one?(String.t) :: boolean
-  defp has_extra_leading_one?(numerical_string) do
-    String.length(numerical_string) == 11 && String.starts_with?(numerical_string, "1")
   end
 
 end
