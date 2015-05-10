@@ -11,6 +11,7 @@ ExUnit.start
 # on that planet as a floating point number.
 
 defmodule SpageAgeTest do
+  # require SpaceAge
   use ExUnit.Case, async: true
 
   test "age on Earth" do
