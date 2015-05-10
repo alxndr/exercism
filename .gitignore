@@ -16,3 +16,4 @@ python
 scala
 scheme
 swift
+*.beam
