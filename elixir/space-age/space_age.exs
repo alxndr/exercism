@@ -6,17 +6,14 @@ defmodule SpaceAgeMacros do
     end
   end
 
-  defmacro def_age_on(planet, opts) do
-    quote do
-      @doc """
-      Return the number of years a person that has lived for 'seconds' seconds is
-      aged on 'planet'.
-      """
-      @spec age_on(planet, pos_integer) :: float
-      def age_on(unquote(planet), seconds) do
-        seconds / (@earth_orbital_period_in_sec * unquote(opts[:multiplier]))
+  defmacro def_ages_on(planets) do
+    Enum.map(planets, fn ({planet, multiplier}) ->
+      quote do
+        def age_on(unquote(planet), seconds) do
+          seconds / (@earth_orbital_period_in_sec * unquote(multiplier))
+        end
       end
-    end
+    end)
   end
 end
 
@@ -28,13 +25,15 @@ defmodule SpaceAge do
 
   @earth_orbital_period_in_sec 60*60*24*365.25
 
-  def_age_on :mercury, multiplier: 0.2408467
-  def_age_on :venus,   multiplier: 0.6151973
-  def_age_on :earth,   multiplier: 1
-  def_age_on :mars,    multiplier: 1.8808158
-  def_age_on :jupiter, multiplier: 11.862815
-  def_age_on :saturn,  multiplier: 29.447498
-  def_age_on :uranus,  multiplier: 84.016846
-  def_age_on :neptune, multiplier: 164.79132
+  def_ages_on(
+    mercury: 0.2408467,
+    venus: 0.6151973,
+    earth: 1,
+    mars: 1.8808158,
+    jupiter: 11.862815,
+    saturn: 29.447498,
+    uranus: 84.016846,
+    neptune: 164.79132
+  )
 
 end
