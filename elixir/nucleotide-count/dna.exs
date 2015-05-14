@@ -32,9 +32,8 @@ defmodule DNA do
     |> Enum.reduce(empty_census, &count_nucleotides/2)
   end
 
-
   @spec count_nucleotides(char, Dict.t) :: Dict.t
-  defp count_nucleotides(nucleotide, census) do # TODO why can't be nucleotide_counts/2 ?
+  defp count_nucleotides(nucleotide, census) do
     census
     |> Dict.update!(nucleotide, &increment/1)
   end
