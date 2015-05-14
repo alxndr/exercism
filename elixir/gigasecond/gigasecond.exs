@@ -1,6 +1,7 @@
 defmodule Gigasecond do
 
-  @type time_tuple :: {0..23, 0..59, pos_integer}
+  @type seconds :: pos_integer
+  @type time_tuple :: {0..23, 0..59, 0..60} # leap second y'all
   @type datetime_tuple :: {:calendar.date, time_tuple}
 
   @doc """
@@ -8,11 +9,25 @@ defmodule Gigasecond do
   """
   @spec from(:calendar.date) :: :calendar.date
   def from(date = {_y, _m, _d}) do
-    then_in_seconds =
-      ymd_to_datetime(date)
-      |> :calendar.datetime_to_gregorian_seconds
+    date
+    |> to_seconds
+    |> plus_gigasecond
+    |> to_date
+  end
 
-    (then_in_seconds + 1_000_000_000)
+  @spec to_seconds(:calendar.date) :: seconds
+  defp to_seconds(date) do
+    date
+    |> ymd_to_datetime
+    |> :calendar.datetime_to_gregorian_seconds
+  end
+
+  @spec plus_gigasecond(seconds) :: seconds
+  defp plus_gigasecond(seconds), do: seconds + 1_000_000_000
+
+  @spec to_date(seconds) :: :calendar.date
+  defp to_date(seconds) do
+    seconds
     |> :calendar.gregorian_seconds_to_datetime
     |> extract_date
   end
