@@ -5,16 +5,13 @@ defmodule Sublist do
   and if not whether it is equal or unequal to the second list.
   """
   @spec compare([any], [any]) :: atom
+  def compare(first, second) when first === second, do: :equal
   def compare(first, second) do
     cond do
-      first === second ->
-        :equal
-      sublist_of?(first, second) ->
-        :sublist
-      sublist_of?(second, first) ->
-        :superlist
-      true ->
-        :unequal
+      first === second           -> :equal
+      sublist_of?(first, second) -> :sublist
+      sublist_of?(second, first) -> :superlist
+      true                       -> :unequal
     end
   end
 
@@ -30,7 +27,10 @@ defmodule Sublist do
   end
 
   defp at_head_of?([], _), do: true
-  defp at_head_of?([a|first_tail], [a|second_tail]), do: first_tail |> at_head_of?(second_tail)
+  defp at_head_of?([a|first_tail], [a|second_tail]) do
+    first_tail
+    |> at_head_of?(second_tail)
+  end
   defp at_head_of?(_, _), do: false
 
 end

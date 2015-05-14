@@ -34,12 +34,24 @@ defmodule SublistTest do
     assert Sublist.compare([1,2,3],[1,2,3,4,5]) == :sublist
   end
 
+  test "sublist at start of big list" do
+    assert Sublist.compare([1,2,3],Enum.to_list(1..10_000)) == :sublist
+  end
+
   test "sublist in middle" do
     assert Sublist.compare([4,3,2],[5,4,3,2,1]) == :sublist
   end
 
+  test "sublist in middle of big list" do
+    assert Sublist.compare([5013,5014,5015], Enum.to_list(1..10_000)) == :sublist
+  end
+
   test "sublist at end" do
     assert Sublist.compare([3,4,5],[1,2,3,4,5]) == :sublist
+  end
+
+  test "sublist at end of big list" do
+    assert Sublist.compare([3,2,1], Enum.to_list(10_000..1)) == :sublist
   end
 
   test "partially matching sublist at start" do
@@ -60,12 +72,24 @@ defmodule SublistTest do
     assert Sublist.compare([1,2,3,4,5],[1,2,3]) == :superlist
   end
 
+  test "superlist at start of huge list" do
+    assert Sublist.compare(Enum.to_list(1..1_000_000),[1,2,3]) == :superlist
+  end
+
   test "superlist in middle" do
     assert Sublist.compare([5,4,3,2,1],[4,3,2]) == :superlist
   end
 
+  test "superlist in middle of big list" do
+    assert Sublist.compare(Enum.to_list(1..10_000),[5013,5014,5015]) == :superlist
+  end
+
   test "superlist at end" do
     assert Sublist.compare([1,2,3,4,5],[3,4,5]) == :superlist
+  end
+
+  test "superlist at end of big list" do
+    assert Sublist.compare(Enum.to_list(10_000..1),[3,2,1]) == :superlist
   end
 
   test "partially matching superlist at start" do
@@ -74,6 +98,10 @@ defmodule SublistTest do
 
   test "superlist early in huge list" do
     assert Sublist.compare(Enum.to_list(1..1_000_000), [3,4,5]) == :superlist
+  end
+
+  test "superlist at end of medium-sized list" do
+    assert Sublist.compare(Enum.to_list(50_000..1),[3,2,1]) == :superlist
   end
 
   test "strict equality needed" do
