@@ -12,5 +12,5 @@ defmodule Year do
   def leap_year?(y) when rem(y, 400) == 0, do: true
   def leap_year?(y) when rem(y, 100) == 0, do: false
   def leap_year?(y) when rem(y, 4) == 0,   do: true
-  def leap_year?(_year),                   do: false
+  def leap_year?(_),                       do: false
 end
