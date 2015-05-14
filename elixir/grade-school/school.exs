@@ -11,11 +11,7 @@ defmodule School do
   @spec add(Dict.t, String.t, pos_integer) :: Dict.t
   def add(db, name, grade) do
     db
-    |> Dict.update(grade,
-                   [name],
-                   fn (students_in_grade) ->
-                     [name | students_in_grade]
-                   end)
+    |> Dict.update(grade, [name], &([name | &1]))
   end
 
   @doc """
@@ -26,10 +22,8 @@ defmodule School do
     db
     |> Dict.fetch(grade)
     |> case do
-        {:ok, names} ->
-          names
-        :error ->
-          []
+        {:ok, names} -> names
+        :error       -> []
       end
   end
 
