@@ -40,4 +40,5 @@ defmodule ScrabbleScoreTest do
   test "convenient scoring" do
     assert Scrabble.score("alacrity") == 13
   end
+
 end
