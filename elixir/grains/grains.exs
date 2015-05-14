@@ -3,8 +3,9 @@ defmodule Grains do
   Calculate two to the power of the input minus one.
   """
   @spec square(pos_integer) :: pos_integer
-  def square(number) do
-
+  def square(1), do: 1
+  def square(n) do
+    2 * square(n - 1)
   end
 
   @doc """
@@ -12,6 +13,7 @@ defmodule Grains do
   """
   @spec total :: pos_integer
   def total do
-
+    1..64
+    |> Enum.reduce(0, &(&2 + square(&1)))
   end
 end

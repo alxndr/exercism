@@ -19,31 +19,31 @@ defmodule GrainsTest do
     assert Grains.square(1) == 1
   end
 
-  # test "square 2" do
-  #   assert Grains.square(2) == 2
-  # end
+  test "square 2" do
+    assert Grains.square(2) == 2
+  end
 
-  # test "square 3" do
-  #   assert Grains.square(3) == 4
-  # end
+  test "square 3" do
+    assert Grains.square(3) == 4
+  end
 
-  # test "square 4" do
-  #   assert Grains.square(4) == 8
-  # end
+  test "square 4" do
+    assert Grains.square(4) == 8
+  end
 
-  # test "square 16" do
-  #   assert Grains.square(16) == 32768
-  # end
+  test "square 16" do
+    assert Grains.square(16) == 32768
+  end
 
-  # test "square 32" do
-  #   assert Grains.square(32) == 2147483648
-  # end
+  test "square 32" do
+    assert Grains.square(32) == 2147483648
+  end
 
-  # test "square 64" do
-  #   assert Grains.square(64) == 9223372036854775808
-  # end
+  test "square 64" do
+    assert Grains.square(64) == 9223372036854775808
+  end
 
-#   test "total grains" do
-#     assert Grains.total == 18446744073709551615
-#   end
+  test "total grains" do
+    assert Grains.total == 18446744073709551615
+  end
 end
