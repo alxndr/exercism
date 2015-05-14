@@ -35,7 +35,7 @@ defmodule DNA do
   @spec count_nucleotides(char, Dict.t) :: Dict.t
   defp count_nucleotides(nucleotide, census) do
     census
-    |> Dict.update!(nucleotide, &increment/1)
+    |> Dict.update!(nucleotide, &(1 + &1))
   end
 
   @spec empty_census() :: Dict.t
@@ -43,8 +43,5 @@ defmodule DNA do
     @nucleotides
     |> Enum.reduce(%{}, &Dict.update(&2, &1, 0, fn(_) -> end))
   end
-
-  @spec increment(number) :: number
-  defp increment(number), do: number + 1
 
 end
