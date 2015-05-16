@@ -29,11 +29,11 @@ defmodule DNA do
   @spec nucleotide_counts([char]) :: Dict.t
   def nucleotide_counts(strand) do
     strand
-    |> Enum.reduce(empty_census, &count_nucleotides/2)
+    |> Enum.reduce(empty_census, &nucleotide_counts/2)
   end
 
-  @spec count_nucleotides(char, Dict.t) :: Dict.t
-  defp count_nucleotides(nucleotide, census) do
+  @spec nucleotide_counts(char, Dict.t) :: Dict.t
+  defp nucleotide_counts(nucleotide, census) do
     census
     |> Dict.update!(nucleotide, &(1 + &1))
   end
