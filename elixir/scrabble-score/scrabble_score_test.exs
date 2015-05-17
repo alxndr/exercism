@@ -41,4 +41,8 @@ defmodule ScrabbleScoreTest do
     assert Scrabble.score("alacrity") == 13
   end
 
+  test "every letter" do
+    assert 99 == Scrabble.score("the quick brown fox jumps over the lazy dog")
+  end
+
 end
