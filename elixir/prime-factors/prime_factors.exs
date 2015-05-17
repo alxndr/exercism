@@ -18,6 +18,9 @@ defmodule PrimeFactors do
   defp do_something_with(n, factor, _) when rem(n, factor) == 0 do
     [factor | factors_for(div(n, factor))]
   end
+  defp do_something_with(n, factor, max) when factor > max do
+    [n]
+  end
   defp do_something_with(n, factor, max) do
     do_something_with(n, factor + 1, max)
   end
