@@ -40,4 +40,5 @@ defmodule BinaryTest do
   test "invalid binary is decimal 0" do
     assert Binary.to_decimal("carrot") == 0
   end
+
 end
