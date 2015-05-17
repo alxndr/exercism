@@ -57,9 +57,17 @@ defmodule PrimeFactorsTest do
     assert PrimeFactors.factors_for(2993819012551) == [41801, 71620751]
   end
 
+  test "big prime number" do
+    assert PrimeFactors.factors_for(413158511) == [413158511]
+  end
+
+  test "big not-quite-prime number" do
+    assert PrimeFactors.factors_for(2 * 413158511) == [2, 413158511]
+  end
+
   test "lots of 2s" do
-    {big_number, _} = Integer.parse("#{ :math.pow(2, 50)}")
-    assert PrimeFactors.factors_for(big_number) == List.duplicate(2, 50)
+    big_number = round(:math.pow(2, 100))
+    assert PrimeFactors.factors_for(big_number) == List.duplicate(2, 100)
   end
 
 end
