@@ -13,13 +13,10 @@ defmodule Grains do
     1..64
     |> Enum.reduce(0, &(&2 + square(&1)))
   end
-
 end
 
 defmodule Math do
-  def pow(n, 0), do: 1
-  def pow(n, 1), do: n
-  def pow(n, exponent) do
-    n * pow(n, exponent-1)
-  end
+  def pow(n, 0),        do: 1
+  def pow(n, 1),        do: n
+  def pow(n, exponent), do: n * pow(n, exponent-1)
 end
