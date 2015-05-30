@@ -6,15 +6,16 @@ defmodule Binary do
   """
   @spec to_decimal(String.t) :: non_neg_integer
   def to_decimal(string) do
-    {answer, _} =
-      string
-      |> String.reverse
-      |> String.split("")
-      |> Enum.reduce({0, 0}, fn
-        ("1", {total, place}) -> {total + two_to_n(place), place + 1}
-        (_, {total, place})   -> {total, place + 1}
-      end)
-    answer
+    string
+    |> String.reverse
+    |> String.graphemes
+    |> Enum.reduce({0, 0}, fn
+      ("1", {total, place}) ->
+        {total + two_to_n(place), place + 1}
+      (_, {total, place}) ->
+        {total, place + 1}
+    end)
+    |> elem(0)
   end
 
   def two_to_n(0), do: 1
