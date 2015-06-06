@@ -14,11 +14,11 @@ defmodule Sieve do
   defp primes_in(raw_sieve, index) do
     factor = Enum.at(raw_sieve, index)
     raw_sieve
-    |> Enum.reduce([], fn # could use Enum.reject
-      (n, sieve) when n == factor         -> sieve ++ [n]
-      (n, sieve) when rem(n, factor) == 0 -> sieve
-      (n, sieve)                          -> sieve ++ [n]
+    |> Enum.reject(fn
+      (n) when n == factor         -> false
+      (n) when rem(n, factor) == 0 -> true
+      (n)                          -> false
     end)
-    |> primes_to(index + 1)
+    |> primes_in(index + 1)
   end
 end
