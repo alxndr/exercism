@@ -18,7 +18,7 @@ defmodule Sieve do
     |> Enum.reject(fn
       (n) when n == factor         -> false
       (n) when rem(n, factor) == 0 -> true
-      (n)                          -> false
+      (_)                          -> false
     end)
     |> primes_in(index + 1)
   end
