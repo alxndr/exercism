@@ -19,18 +19,22 @@ defmodule Raindrops do
   """
   @spec convert(pos_integer) :: String.t
   def convert(number) do
-    result =
-      @factor_pairs
-      |> Enum.reduce(@default, fn
-        ({term, n}, str) when number >= n and rem(number, n) == 0 ->
-          str <> to_string(term)
-        (_, str) ->
-          str
-      end)
-    if result == @default do
+    factors_string = string_for_factors(number)
+    if factors_string == @default do
       to_string number
     else
-      result
+      factors_string
     end
+  end
+
+  @spec string_for_factors(pos_integer) :: String.t
+  defp string_for_factors(number) do
+    @factor_pairs
+    |> Enum.reduce(@default, fn
+      ({term, n}, str) when number >= n and rem(number, n) == 0 ->
+        str <> to_string(term)
+      (_, str) ->
+        str
+    end)
   end
 end
