@@ -10,7 +10,7 @@ defmodule Allergies do
     chocolate
     pollen
     cats
-  )a # flag value will be 2^index of allergy
+  ) # flag value will be 2^index of allergy
 
   @doc """
   List the allergies for which the corresponding flag bit is true.
@@ -25,7 +25,7 @@ defmodule Allergies do
       if (flags &&& flag_value) === 0 do
         allergies
       else
-        [to_string(allergy) | allergies]
+        [allergy | allergies]
       end
     end)
   end
