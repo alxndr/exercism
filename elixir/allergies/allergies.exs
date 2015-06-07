@@ -20,12 +20,12 @@ defmodule Allergies do
   """
   @spec list(non_neg_integer) :: [String.t]
   def list(flags) do
-    allergies_with_flag_values
-    |> Enum.reduce([], fn ({allergy, flag_value}, allergies) ->
+    allergens_with_flag_values
+    |> Enum.reduce([], fn ({allergy, flag_value}, allergens) ->
       if (flags &&& flag_value) === 0 do
-        allergies
+        allergens
       else
-        [allergy | allergies]
+        [allergy | allergens]
       end
     end)
   end
@@ -40,8 +40,8 @@ defmodule Allergies do
     |> Enum.any?(&(&1 === item))
   end
 
-  @spec allergies_with_flag_values() :: [{String.t, non_neg_integer}]
-  defp allergies_with_flag_values do
+  @spec allergens_with_flag_values() :: [{String.t, non_neg_integer}]
+  defp allergens_with_flag_values do
     allergens_with_indices =
       @ordered_allergens
       |> Enum.with_index
