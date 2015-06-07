@@ -35,13 +35,9 @@ defmodule Allergies do
   """
   @spec allergic_to?(non_neg_integer, String.t) :: boolean
   def allergic_to?(flags, item) do
-    allergies_map = allergies_with_flag_values
-    allergen_flag_value = allergies_map[String.to_atom(item)]
-    if (flags &&& allergen_flag_value) === 0 do
-      false
-    else
-      true
-    end
+    flags
+    |> list
+    |> Enum.any?(&(&1 === item))
   end
 
   @spec allergies_with_flag_values() :: [{String.t, non_neg_integer}]
