@@ -36,26 +36,26 @@ defmodule BankAccountTest do
     assert BankAccount.balance(context[:account]) == 0
   end
 
-  test "incrementing and checking balance", context do
-    assert BankAccount.balance(context[:account]) == 0
-    BankAccount.update(context[:account], 10)
-    assert BankAccount.balance(context[:account]) == 10
-  end
+  # test "incrementing and checking balance", context do
+  #   assert BankAccount.balance(context[:account]) == 0
+  #   BankAccount.update(context[:account], 10)
+  #   assert BankAccount.balance(context[:account]) == 10
+  # end
 
-  test "incrementing balance from another process then checking it from test process", context do
-    assert BankAccount.balance(context[:account]) == 0
-    this = self()
-    spawn(fn ->
-      BankAccount.update(context[:account], 20)
-      send(this, :continue)
-    end)
-    receive do
-      :continue -> :ok
-    after 
-      1000 -> flunk("Timeout") 
-    end
-    assert BankAccount.balance(context[:account]) == 20
-  end
+  # test "incrementing balance from another process then checking it from test process", context do
+  #   assert BankAccount.balance(context[:account]) == 0
+  #   this = self()
+  #   spawn(fn ->
+  #     BankAccount.update(context[:account], 20)
+  #     send(this, :continue)
+  #   end)
+  #   receive do
+  #     :continue -> :ok
+  #   after 
+  #     1000 -> flunk("Timeout") 
+  #   end
+  #   assert BankAccount.balance(context[:account]) == 20
+  # end
 
   ## Workarounds
 

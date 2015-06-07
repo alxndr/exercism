@@ -9,40 +9,30 @@ defmodule Atbash do
   "xlnko vgvob rmhvx fiv"
   """
   @spec encode(String.t) :: String.t
+  @spec encode([String.t], [String.t]) :: [String.t]
   def encode(plaintext) do
     plaintext
+    |> String.downcase
     |> String.graphemes
-    |> sanitize
-    |> Enum.reverse
     |> encode([])
+    |> flatten
     |> Enum.chunk(5, 5, [])
     |> Enum.map(&Enum.join(&1, ""))
     |> Enum.join(" ")
   end
   defp encode([], encoded), do: encoded
   defp encode([h|t], encoded) do
-    encode(t, [encoded_letter(h) | encoded])
-  end
-
-  @spec sanitize([String.t]) :: [String.t]
-  defp sanitize(letters) do
-    sanitize(letters, [])
-  end
-  defp sanitize([], sanitized_letters), do: sanitized_letters
-  defp sanitize([letter|letters], sanitized_letters) do
-    letter = String.downcase(letter)
-    cond do
-      Regex.match?(~r/^[0-9]$/, letter) ->
-        sanitize(letters, sanitized_letters ++ [letter])
-      Regex.match?(~r/^[a-z]$/, letter) ->
-        sanitize(letters, sanitized_letters ++ [letter])
-      true ->
-        sanitize(letters, sanitized_letters)
-    end
+    encode(t, encoded ++ [encoded_letter(h)])
   end
 
   @spec encoded_letter(String.t) :: String.t
   defp encoded_letter(num_str = <<n>>) when n >= 48 and n <= 57, do: num_str
   defp encoded_letter(<<n>>) when n >= 97 and n <= 122, do: << 219 - n >>
+  defp encoded_letter(_), do: nil
+
+  @spec flatten([any]) :: [any]
+  defp flatten(list) do
+    Enum.reduce list, [], &if(&1, do: &2 ++ [&1], else: &2)
+  end
 
 end
