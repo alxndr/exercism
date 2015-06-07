@@ -41,7 +41,7 @@ defmodule Allergies do
   end
 
   @spec allergies_with_flag_values() :: [{String.t, non_neg_integer}]
-  def allergies_with_flag_values do # TODO make private
+  defp allergies_with_flag_values do
     @ordered_allergens
     |> Enum.with_index
     |> Enum.reverse
