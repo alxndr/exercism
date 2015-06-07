@@ -42,10 +42,13 @@ defmodule Allergies do
 
   @spec allergies_with_flag_values() :: [{String.t, non_neg_integer}]
   defp allergies_with_flag_values do
-    @ordered_allergens
-    |> Enum.with_index
-    |> Enum.reverse
-    |> Enum.map(fn({allergy, index}) -> {allergy, pow(2, index)} end)
+    allergens_with_indices =
+      @ordered_allergens
+      |> Enum.with_index
+      |> Enum.reverse
+    for {allergy, index} <- allergens_with_indices do
+      {allergy, pow(2, index)}
+    end
   end
 
   @spec pow(non_neg_integer, non_neg_integer) :: non_neg_integer
