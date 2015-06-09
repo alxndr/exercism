@@ -13,8 +13,9 @@ defmodule BankAccount do
   """
   @spec open_bank() :: account
   def open_bank() do
-    {:ok, pid} = Agent.start_link(fn -> %{balance: 0} end, name: __MODULE__)
-    pid
+    spawn fn ->
+      loop(%{balance: 0})
+    end
   end
 
   @doc """
@@ -28,20 +29,34 @@ defmodule BankAccount do
   Get the account's balance.
   """
   @spec balance(account) :: integer
-  def balance(_account) do
-    Agent.get(__MODULE__, fn(map) ->
-      map.balance
-    end)
+  def balance(account) do
+    send account, {:balance, self}
+    receive do
+      balance -> balance
+    end
   end
 
   @doc """
   Update the account's balance by adding the given amount which may be negative.
   """
   @spec update(account, integer) :: any
-  def update(_account, amount) do
-    Agent.update(__MODULE__, fn(map) ->
-      new_amount = map.balance + amount
-      %{map | balance: new_amount}
-    end)
+  def update(account, amount) do
+    send account, {:update, amount, self}
+    receive do
+      _ -> true
+    end
+  end
+
+  @spec loop(%{}) :: nil # ...?
+  defp loop(ledger) do
+    receive do
+      {:balance, caller} ->
+        send caller, ledger.balance
+        loop ledger
+      {:update, amount, caller} ->
+        ledger = %{ledger | balance: ledger.balance + amount}
+        send caller, ledger.balance
+        loop ledger
+    end
   end
 end

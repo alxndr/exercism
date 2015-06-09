@@ -62,7 +62,7 @@ defmodule BankAccountTest do
 
   # This deals with the deprecation of the send operator.
   # It makes this code work both pre-0.12.2 and post-0.12.3
-  unless { :send, 2 } in Kernel.__info__(:functions) do
-    defp send(to, what), do: to <- what
-  end
+  # unless { :send, 2 } in Kernel.__info__(:functions) do
+  #   defp send(to, what), do: to <- what
+  # end
 end
