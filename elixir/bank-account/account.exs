@@ -13,9 +13,7 @@ defmodule BankAccount do
   """
   @spec open_bank() :: account
   def open_bank() do
-    spawn fn ->
-      loop(%{balance: 0})
-    end
+    BalanceAgent.new
   end
 
   @doc """
@@ -30,10 +28,7 @@ defmodule BankAccount do
   """
   @spec balance(account) :: integer
   def balance(account) do
-    send account, {:balance, self}
-    receive do
-      balance -> balance
-    end
+    BalanceAgent.get(account)
   end
 
   @doc """
@@ -41,22 +36,22 @@ defmodule BankAccount do
   """
   @spec update(account, integer) :: any
   def update(account, amount) do
-    send account, {:update, amount, self}
-    receive do
-      _ -> true
-    end
-  end
-
-  @spec loop(%{}) :: nil # ...?
-  defp loop(ledger) do
-    receive do
-      {:balance, caller} ->
-        send caller, ledger.balance
-        loop ledger
-      {:update, amount, caller} ->
-        ledger = %{ledger | balance: ledger.balance + amount}
-        send caller, ledger.balance
-        loop ledger
-    end
+    BalanceAgent.add(account, amount)
   end
 end
+
+defmodule BalanceAgent do
+  def new do
+    {:ok, pid} = Agent.start_link(fn -> 0 end)
+    pid
+  end
+
+  def get(pid) do
+    Agent.get(pid, fn (balance) -> balance end)
+  end
+
+  def add(pid, amount) do
+    Agent.update(pid, fn (balance) -> balance + amount end)
+  end
+end
+
