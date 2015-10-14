@@ -20,7 +20,8 @@ defmodule BankAccount do
   Close the bank. Makes the account unavailable.
   """
   @spec close_bank(account) :: none
-  def close_bank(_account) do
+  def close_bank(account) do
+    BalanceAgent.close(account)
   end
 
   @doc """
@@ -42,7 +43,7 @@ end
 
 defmodule BalanceAgent do
   def new do
-    {:ok, pid} = Agent.start_link(fn -> 0 end)
+    {:ok, pid} = Agent.start(fn -> 0 end)
     pid
   end
 
@@ -53,5 +54,8 @@ defmodule BalanceAgent do
   def add(pid, amount) do
     Agent.update(pid, fn (balance) -> balance + amount end)
   end
-end
 
+  def close(pid) do
+    :ok = Agent.stop(pid)
+  end
+end
