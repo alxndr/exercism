@@ -7,7 +7,7 @@ defmodule Scrabble do
   def score(word) do
     word
     |> String.upcase
-    |> String.split("")
+    |> String.graphemes
     |> Enum.reduce(0, &(&2 + score_for(&1)))
   end
 
