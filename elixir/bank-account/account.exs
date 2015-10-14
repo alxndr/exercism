@@ -13,49 +13,31 @@ defmodule BankAccount do
   """
   @spec open_bank() :: account
   def open_bank() do
-    BalanceAgent.new
+    {:ok, pid} = Agent.start(fn -> 0 end)
+    pid
   end
 
   @doc """
   Close the bank. Makes the account unavailable.
   """
   @spec close_bank(account) :: none
-  def close_bank(account) do
-    BalanceAgent.close(account)
+  def close_bank(pid) do
+    :ok = Agent.stop(pid)
   end
 
   @doc """
   Get the account's balance.
   """
   @spec balance(account) :: integer
-  def balance(account) do
-    BalanceAgent.get(account)
+  def balance(pid) do
+    Agent.get(pid, &(&1))
   end
 
   @doc """
   Update the account's balance by adding the given amount which may be negative.
   """
   @spec update(account, integer) :: any
-  def update(account, amount) do
-    BalanceAgent.add(account, amount)
-  end
-end
-
-defmodule BalanceAgent do
-  def new do
-    {:ok, pid} = Agent.start(fn -> 0 end)
-    pid
-  end
-
-  def get(pid) do
-    Agent.get(pid, fn (balance) -> balance end)
-  end
-
-  def add(pid, amount) do
-    Agent.update(pid, fn (balance) -> balance + amount end)
-  end
-
-  def close(pid) do
-    :ok = Agent.stop(pid)
+  def update(pid, amount) do
+    Agent.update(pid, &(amount + &1))
   end
 end
