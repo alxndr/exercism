@@ -1,5 +1,6 @@
 function Gigasecond(startDate) {
-  var gigaDate = new Date(new Date(Number(startDate) + 1e12).toDateString());
+  var gigaSeconds = 1e12;
+  var gigaDate = new Date(new Date(Number(startDate) + gigaSeconds).toDateString());
 
   this.date = function returnGigaDate() {
     return gigaDate;
