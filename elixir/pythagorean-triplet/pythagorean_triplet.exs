@@ -42,9 +42,6 @@ defmodule Triplet do
   @spec generate(non_neg_integer, non_neg_integer, non_neg_integer) :: [list(non_neg_integer)]
   def generate(min, max, sum) do
     generate(min, max)
-    |> Enum.filter(fn
-      [a, b, c] when a + b + c == sum -> true
-      _ -> false
-    end)
+    |> Stream.filter(fn [a, b, c] -> sum([a, b, c]) == sum end)
   end
 end
