@@ -11,9 +11,10 @@ defmodule Palindromes do
 
   defp palindromes(max_factor, min_factor) do
     for a <- min_factor..max_factor,
-    b <- a..max_factor,
-    String.reverse("#{a * b}") == "#{a * b}",
-      do: {a * b, [a, b]}
+	b <- a..max_factor,
+        String.reverse("#{a * b}") == "#{a * b}" do
+	  {a * b, [a, b]}
+    end
   end
 
   defp add_to_map({product, pairs}, map) do
